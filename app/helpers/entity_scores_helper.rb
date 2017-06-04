@@ -1,0 +1,2 @@
+module EntityScoresHelper
+end

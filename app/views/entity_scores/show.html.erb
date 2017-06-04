@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Entity:</strong>
+  <%= @entity_score.entity %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @entity_score.user %>
+</p>
+
+<p>
+  <strong>Exam set:</strong>
+  <%= @entity_score.exam_set %>
+</p>
+
+<p>
+  <strong>Exam:</strong>
+  <%= @entity_score.exam %>
+</p>
+
+<%= link_to 'Edit', edit_entity_score_path(@entity_score) %> |
+<%= link_to 'Back', entity_scores_path %>

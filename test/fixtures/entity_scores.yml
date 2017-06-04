@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  entity: one
+  entity_type: Entity
+  user: one
+  exam_set: one
+  exam: one
+
+two:
+  entity: two
+  entity_type: Entity
+  user: two
+  exam_set: two
+  exam: two

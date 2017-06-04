@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170604050946) do
+ActiveRecord::Schema.define(version: 20170604055451) do
 
   create_table "answers", force: :cascade do |t|
     t.string   "text"
@@ -66,6 +66,20 @@ ActiveRecord::Schema.define(version: 20170604050946) do
     t.string   "code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "entity_scores", force: :cascade do |t|
+    t.string   "entity_type"
+    t.integer  "entity_id"
+    t.integer  "user_id"
+    t.integer  "exam_set_id"
+    t.integer  "exam_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["entity_type", "entity_id"], name: "index_entity_scores_on_entity_type_and_entity_id"
+    t.index ["exam_id"], name: "index_entity_scores_on_exam_id"
+    t.index ["exam_set_id"], name: "index_entity_scores_on_exam_set_id"
+    t.index ["user_id"], name: "index_entity_scores_on_user_id"
   end
 
   create_table "exam_attempts", force: :cascade do |t|

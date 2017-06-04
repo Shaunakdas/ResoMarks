@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Entity Scores</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Entity</th>
+      <th>User</th>
+      <th>Exam set</th>
+      <th>Exam</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @entity_scores.each do |entity_score| %>
+      <tr>
+        <td><%= entity_score.entity %></td>
+        <td><%= entity_score.user %></td>
+        <td><%= entity_score.exam_set %></td>
+        <td><%= entity_score.exam %></td>
+        <td><%= link_to 'Show', entity_score %></td>
+        <td><%= link_to 'Edit', edit_entity_score_path(entity_score) %></td>
+        <td><%= link_to 'Destroy', entity_score, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Entity Score', new_entity_score_path %>

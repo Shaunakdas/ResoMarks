@@ -21,3 +21,10 @@ rails generate scaffold Question text:string hint_text:string partial:boolean co
 rails generate scaffold Answer text:string option_text:string sequence_number:integer correct:boolean question:references 
 
 rails generate scaffold AttemptAnswer answer:references question:references exam_attempt:references
+
+rails generate scaffold EntityScore entity:references{polymorphic}:index user:references exam_set:references exam:references
+
+rails db:migrate
+
+rails generate controller api/question
+//Change heading of QuestionController to "class Api::QuestionController < ApiController"

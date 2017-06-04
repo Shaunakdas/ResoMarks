@@ -7,4 +7,6 @@ class Question < ApplicationRecord
   belongs_to :subtopic
   belongs_to :exam
   belongs_to :exam_set
+  has_many :answers
+  has_many :entity_scores, as: :entity
 end

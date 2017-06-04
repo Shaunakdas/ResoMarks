@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :entity_scores
   resources :attempt_answers
   resources :answers
   resources :questions
