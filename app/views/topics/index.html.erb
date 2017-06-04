@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Topics</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Sequence number</th>
+      <th>Code</th>
+      <th>Subject</th>
+      <th>Standard</th>
+      <th>Chapter</th>
+      <th>Stream</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @topics.each do |topic| %>
+      <tr>
+        <td><%= topic.name %></td>
+        <td><%= topic.sequence_number %></td>
+        <td><%= topic.code %></td>
+        <td><%= topic.subject %></td>
+        <td><%= topic.standard %></td>
+        <td><%= topic.chapter %></td>
+        <td><%= topic.stream %></td>
+        <td><%= link_to 'Show', topic %></td>
+        <td><%= link_to 'Edit', edit_topic_path(topic) %></td>
+        <td><%= link_to 'Destroy', topic, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Topic', new_topic_path %>

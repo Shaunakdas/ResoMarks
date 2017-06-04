@@ -1,0 +1,55 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Questions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Text</th>
+      <th>Hint text</th>
+      <th>Partial</th>
+      <th>Correct score</th>
+      <th>Incorrect score</th>
+      <th>Blank score</th>
+      <th>Per option score</th>
+      <th>Difficulty level</th>
+      <th>Subject</th>
+      <th>Standard</th>
+      <th>Chapter</th>
+      <th>Stream</th>
+      <th>Subtopic</th>
+      <th>Exam</th>
+      <th>Exam set</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @questions.each do |question| %>
+      <tr>
+        <td><%= question.text %></td>
+        <td><%= question.hint_text %></td>
+        <td><%= question.partial %></td>
+        <td><%= question.correct_score %></td>
+        <td><%= question.incorrect_score %></td>
+        <td><%= question.blank_score %></td>
+        <td><%= question.per_option_score %></td>
+        <td><%= question.difficulty_level %></td>
+        <td><%= question.subject %></td>
+        <td><%= question.standard %></td>
+        <td><%= question.chapter %></td>
+        <td><%= question.stream %></td>
+        <td><%= question.subtopic %></td>
+        <td><%= question.exam %></td>
+        <td><%= question.exam_set %></td>
+        <td><%= link_to 'Show', question %></td>
+        <td><%= link_to 'Edit', edit_question_path(question) %></td>
+        <td><%= link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Question', new_question_path %>

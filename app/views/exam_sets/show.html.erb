@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @exam_set.name %>
+</p>
+
+<p>
+  <strong>Sequence number:</strong>
+  <%= @exam_set.sequence_number %>
+</p>
+
+<p>
+  <strong>Exam date:</strong>
+  <%= @exam_set.exam_date %>
+</p>
+
+<p>
+  <strong>Code:</strong>
+  <%= @exam_set.code %>
+</p>
+
+<p>
+  <strong>Exam:</strong>
+  <%= @exam_set.exam %>
+</p>
+
+<%= link_to 'Edit', edit_exam_set_path(@exam_set) %> |
+<%= link_to 'Back', exam_sets_path %>

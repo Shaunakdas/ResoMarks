@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  sequence_number: 1
+  code: MyString
+  subject: one
+  standard: one
+  chapter: one
+  topic: one
+  stream: one
+
+two:
+  name: MyString
+  sequence_number: 1
+  code: MyString
+  subject: two
+  standard: two
+  chapter: two
+  topic: two
+  stream: two

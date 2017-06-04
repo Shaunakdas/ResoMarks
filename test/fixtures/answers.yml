@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  text: MyString
+  option_text: MyString
+  sequence_number: 1
+  correct: false
+  question: one
+
+two:
+  text: MyString
+  option_text: MyString
+  sequence_number: 1
+  correct: false
+  question: two

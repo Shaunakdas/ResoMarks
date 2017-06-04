@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @stream.name %>
+</p>
+
+<p>
+  <strong>Sequence number:</strong>
+  <%= @stream.sequence_number %>
+</p>
+
+<p>
+  <strong>Code:</strong>
+  <%= @stream.code %>
+</p>
+
+<p>
+  <strong>Subject:</strong>
+  <%= @stream.subject %>
+</p>
+
+<%= link_to 'Edit', edit_stream_path(@stream) %> |
+<%= link_to 'Back', streams_path %>

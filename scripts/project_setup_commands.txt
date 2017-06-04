@@ -1,0 +1,8 @@
+gem install rails -v 5.0.1
+rails _5.0.1_ new reso_marks
+bundle update
+bundle install
+rails s
+
+
+-----------

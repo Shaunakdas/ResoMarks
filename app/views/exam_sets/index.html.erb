@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Exam Sets</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Sequence number</th>
+      <th>Exam date</th>
+      <th>Code</th>
+      <th>Exam</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @exam_sets.each do |exam_set| %>
+      <tr>
+        <td><%= exam_set.name %></td>
+        <td><%= exam_set.sequence_number %></td>
+        <td><%= exam_set.exam_date %></td>
+        <td><%= exam_set.code %></td>
+        <td><%= exam_set.exam %></td>
+        <td><%= link_to 'Show', exam_set %></td>
+        <td><%= link_to 'Edit', edit_exam_set_path(exam_set) %></td>
+        <td><%= link_to 'Destroy', exam_set, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Exam Set', new_exam_set_path %>

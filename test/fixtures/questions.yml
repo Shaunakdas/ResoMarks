@@ -1,0 +1,35 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  text: MyString
+  hint_text: MyString
+  partial: false
+  correct_score: 1
+  incorrect_score: 1
+  blank_score: 1
+  per_option_score: 1
+  difficulty_level: one
+  subject: one
+  standard: one
+  chapter: one
+  stream: one
+  subtopic: one
+  exam: one
+  exam_set: one
+
+two:
+  text: MyString
+  hint_text: MyString
+  partial: false
+  correct_score: 1
+  incorrect_score: 1
+  blank_score: 1
+  per_option_score: 1
+  difficulty_level: two
+  subject: two
+  standard: two
+  chapter: two
+  stream: two
+  subtopic: two
+  exam: two
+  exam_set: two

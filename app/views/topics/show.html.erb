@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @topic.name %>
+</p>
+
+<p>
+  <strong>Sequence number:</strong>
+  <%= @topic.sequence_number %>
+</p>
+
+<p>
+  <strong>Code:</strong>
+  <%= @topic.code %>
+</p>
+
+<p>
+  <strong>Subject:</strong>
+  <%= @topic.subject %>
+</p>
+
+<p>
+  <strong>Standard:</strong>
+  <%= @topic.standard %>
+</p>
+
+<p>
+  <strong>Chapter:</strong>
+  <%= @topic.chapter %>
+</p>
+
+<p>
+  <strong>Stream:</strong>
+  <%= @topic.stream %>
+</p>
+
+<%= link_to 'Edit', edit_topic_path(@topic) %> |
+<%= link_to 'Back', topics_path %>

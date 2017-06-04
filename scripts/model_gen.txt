@@ -1,0 +1,23 @@
+
+rails generate scaffold Standard name:string sequence_number:integer code:string
+rails generate scaffold Subject name:string code:string
+rails generate scaffold Stream name:string sequence_number:integer code:string subject:references
+rails generate scaffold Chapter name:string sequence_number:integer code:string subject:references standard:references stream:references
+rails generate scaffold Topic name:string sequence_number:integer code:string subject:references standard:references chapter:references stream:references
+rails generate scaffold Subtopic name:string sequence_number:integer code:string subject:references standard:references chapter:references topic:references stream:references
+
+rails generate scaffold User first_name:string last_name:string roll_number:string role:string email:string encrypted_password:string reset_password_token:string reset_password_sent_at:date sign_in_count:integer current_sign_in_at:date last_sign_in_at:date current_sign_in_ip:string last_sign_in_ip:string remember_created_at:date confirmation_token:string confirmed_at:date confirmation_sent_at:date
+
+rails generate scaffold UserPhoneNumber number:string  user:references
+rails generate scaffold AuthToken number:string auth_token:string otp:integer device_id:string user:references
+
+rails generate scaffold DifficultyLevel name:string number:integer value:integer code:string
+
+rails generate scaffold Exam name:string sequence_number:integer exam_date:date code:string
+rails generate scaffold ExamSet name:string sequence_number:integer exam_date:date code:string exam:references 
+rails generate scaffold ExamAttempt name:string exam:references exam_set:references user:references
+
+rails generate scaffold Question text:string hint_text:string partial:boolean correct_score:integer incorrect_score:integer blank_score:integer per_option_score:integer difficulty_level:references subject:references standard:references chapter:references stream:references subtopic:references exam:references exam_set:references
+rails generate scaffold Answer text:string option_text:string sequence_number:integer correct:boolean question:references 
+
+rails generate scaffold AttemptAnswer answer:references question:references exam_attempt:references

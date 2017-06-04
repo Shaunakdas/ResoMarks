@@ -1,0 +1,2 @@
+class DifficultyLevel < ApplicationRecord
+end

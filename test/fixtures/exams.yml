@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  sequence_number: 1
+  exam_date: 2017-06-04
+  code: MyString
+
+two:
+  name: MyString
+  sequence_number: 1
+  exam_date: 2017-06-04
+  code: MyString

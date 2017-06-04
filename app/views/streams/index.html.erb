@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Streams</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Sequence number</th>
+      <th>Code</th>
+      <th>Subject</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @streams.each do |stream| %>
+      <tr>
+        <td><%= stream.name %></td>
+        <td><%= stream.sequence_number %></td>
+        <td><%= stream.code %></td>
+        <td><%= stream.subject %></td>
+        <td><%= link_to 'Show', stream %></td>
+        <td><%= link_to 'Edit', edit_stream_path(stream) %></td>
+        <td><%= link_to 'Destroy', stream, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Stream', new_stream_path %>

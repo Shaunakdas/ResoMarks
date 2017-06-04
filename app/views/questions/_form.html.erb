@@ -1,0 +1,92 @@
+<%= form_for(question) do |f| %>
+  <% if question.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(question.errors.count, "error") %> prohibited this question from being saved:</h2>
+
+      <ul>
+      <% question.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :text %>
+    <%= f.text_field :text %>
+  </div>
+
+  <div class="field">
+    <%= f.label :hint_text %>
+    <%= f.text_field :hint_text %>
+  </div>
+
+  <div class="field">
+    <%= f.label :partial %>
+    <%= f.check_box :partial %>
+  </div>
+
+  <div class="field">
+    <%= f.label :correct_score %>
+    <%= f.number_field :correct_score %>
+  </div>
+
+  <div class="field">
+    <%= f.label :incorrect_score %>
+    <%= f.number_field :incorrect_score %>
+  </div>
+
+  <div class="field">
+    <%= f.label :blank_score %>
+    <%= f.number_field :blank_score %>
+  </div>
+
+  <div class="field">
+    <%= f.label :per_option_score %>
+    <%= f.number_field :per_option_score %>
+  </div>
+
+  <div class="field">
+    <%= f.label :difficulty_level_id %>
+    <%= f.text_field :difficulty_level_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :subject_id %>
+    <%= f.text_field :subject_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :standard_id %>
+    <%= f.text_field :standard_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :chapter_id %>
+    <%= f.text_field :chapter_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :stream_id %>
+    <%= f.text_field :stream_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :subtopic_id %>
+    <%= f.text_field :subtopic_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :exam_id %>
+    <%= f.text_field :exam_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :exam_set_id %>
+    <%= f.text_field :exam_set_id %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Number:</strong>
+  <%= @auth_token.number %>
+</p>
+
+<p>
+  <strong>Auth token:</strong>
+  <%= @auth_token.auth_token %>
+</p>
+
+<p>
+  <strong>Otp:</strong>
+  <%= @auth_token.otp %>
+</p>
+
+<p>
+  <strong>Device:</strong>
+  <%= @auth_token.device_id %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @auth_token.user %>
+</p>
+
+<%= link_to 'Edit', edit_auth_token_path(@auth_token) %> |
+<%= link_to 'Back', auth_tokens_path %>

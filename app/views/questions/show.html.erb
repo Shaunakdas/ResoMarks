@@ -1,0 +1,79 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Text:</strong>
+  <%= @question.text %>
+</p>
+
+<p>
+  <strong>Hint text:</strong>
+  <%= @question.hint_text %>
+</p>
+
+<p>
+  <strong>Partial:</strong>
+  <%= @question.partial %>
+</p>
+
+<p>
+  <strong>Correct score:</strong>
+  <%= @question.correct_score %>
+</p>
+
+<p>
+  <strong>Incorrect score:</strong>
+  <%= @question.incorrect_score %>
+</p>
+
+<p>
+  <strong>Blank score:</strong>
+  <%= @question.blank_score %>
+</p>
+
+<p>
+  <strong>Per option score:</strong>
+  <%= @question.per_option_score %>
+</p>
+
+<p>
+  <strong>Difficulty level:</strong>
+  <%= @question.difficulty_level %>
+</p>
+
+<p>
+  <strong>Subject:</strong>
+  <%= @question.subject %>
+</p>
+
+<p>
+  <strong>Standard:</strong>
+  <%= @question.standard %>
+</p>
+
+<p>
+  <strong>Chapter:</strong>
+  <%= @question.chapter %>
+</p>
+
+<p>
+  <strong>Stream:</strong>
+  <%= @question.stream %>
+</p>
+
+<p>
+  <strong>Subtopic:</strong>
+  <%= @question.subtopic %>
+</p>
+
+<p>
+  <strong>Exam:</strong>
+  <%= @question.exam %>
+</p>
+
+<p>
+  <strong>Exam set:</strong>
+  <%= @question.exam_set %>
+</p>
+
+<%= link_to 'Edit', edit_question_path(@question) %> |
+<%= link_to 'Back', questions_path %>

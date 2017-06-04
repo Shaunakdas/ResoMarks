@@ -1,0 +1,42 @@
+<%= form_for(auth_token) do |f| %>
+  <% if auth_token.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(auth_token.errors.count, "error") %> prohibited this auth_token from being saved:</h2>
+
+      <ul>
+      <% auth_token.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :number %>
+    <%= f.text_field :number %>
+  </div>
+
+  <div class="field">
+    <%= f.label :auth_token %>
+    <%= f.text_field :auth_token %>
+  </div>
+
+  <div class="field">
+    <%= f.label :otp %>
+    <%= f.number_field :otp %>
+  </div>
+
+  <div class="field">
+    <%= f.label :device_id %>
+    <%= f.text_field :device_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :user_id %>
+    <%= f.text_field :user_id %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

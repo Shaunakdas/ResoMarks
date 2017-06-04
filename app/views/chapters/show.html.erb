@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @chapter.name %>
+</p>
+
+<p>
+  <strong>Sequence number:</strong>
+  <%= @chapter.sequence_number %>
+</p>
+
+<p>
+  <strong>Code:</strong>
+  <%= @chapter.code %>
+</p>
+
+<p>
+  <strong>Subject:</strong>
+  <%= @chapter.subject %>
+</p>
+
+<p>
+  <strong>Standard:</strong>
+  <%= @chapter.standard %>
+</p>
+
+<p>
+  <strong>Stream:</strong>
+  <%= @chapter.stream %>
+</p>
+
+<%= link_to 'Edit', edit_chapter_path(@chapter) %> |
+<%= link_to 'Back', chapters_path %>

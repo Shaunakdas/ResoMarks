@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @exam_attempt.name %>
+</p>
+
+<p>
+  <strong>Exam:</strong>
+  <%= @exam_attempt.exam %>
+</p>
+
+<p>
+  <strong>Exam set:</strong>
+  <%= @exam_attempt.exam_set %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @exam_attempt.user %>
+</p>
+
+<%= link_to 'Edit', edit_exam_attempt_path(@exam_attempt) %> |
+<%= link_to 'Back', exam_attempts_path %>
