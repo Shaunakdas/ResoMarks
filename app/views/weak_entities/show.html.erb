@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Exam attempt:</strong>
+  <%= @weak_entity.exam_attempt %>
+</p>
+
+<p>
+  <strong>Entity:</strong>
+  <%= @weak_entity.entity %>
+</p>
+
+<%= link_to 'Edit', edit_weak_entity_path(@weak_entity) %> |
+<%= link_to 'Back', weak_entities_path %>

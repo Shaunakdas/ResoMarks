@@ -1,0 +1,2 @@
+module WeakEntitiesHelper
+end

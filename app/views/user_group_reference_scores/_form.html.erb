@@ -1,0 +1,42 @@
+<%= form_for(user_group_reference_score) do |f| %>
+  <% if user_group_reference_score.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(user_group_reference_score.errors.count, "error") %> prohibited this user_group_reference_score from being saved:</h2>
+
+      <ul>
+      <% user_group_reference_score.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :percentile %>
+    <%= f.text_field :percentile %>
+  </div>
+
+  <div class="field">
+    <%= f.label :rank %>
+    <%= f.number_field :rank %>
+  </div>
+
+  <div class="field">
+    <%= f.label :user_entity_score_id %>
+    <%= f.text_field :user_entity_score_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :group_id %>
+    <%= f.text_field :group_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :entity_id %>
+    <%= f.text_field :entity_id %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

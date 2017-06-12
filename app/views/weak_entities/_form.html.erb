@@ -1,0 +1,27 @@
+<%= form_for(weak_entity) do |f| %>
+  <% if weak_entity.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(weak_entity.errors.count, "error") %> prohibited this weak_entity from being saved:</h2>
+
+      <ul>
+      <% weak_entity.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :exam_attempt_id %>
+    <%= f.text_field :exam_attempt_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :entity_id %>
+    <%= f.text_field :entity_id %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,2 @@
+class TargetExam < ApplicationRecord
+end

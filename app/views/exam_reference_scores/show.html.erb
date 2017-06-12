@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Average:</strong>
+  <%= @exam_reference_score.average %>
+</p>
+
+<p>
+  <strong>Maximum:</strong>
+  <%= @exam_reference_score.maximum %>
+</p>
+
+<p>
+  <strong>Highest:</strong>
+  <%= @exam_reference_score.highest %>
+</p>
+
+<p>
+  <strong>Lowest:</strong>
+  <%= @exam_reference_score.lowest %>
+</p>
+
+<p>
+  <strong>Exam:</strong>
+  <%= @exam_reference_score.exam %>
+</p>
+
+<p>
+  <strong>Entity:</strong>
+  <%= @exam_reference_score.entity %>
+</p>
+
+<%= link_to 'Edit', edit_exam_reference_score_path(@exam_reference_score) %> |
+<%= link_to 'Back', exam_reference_scores_path %>

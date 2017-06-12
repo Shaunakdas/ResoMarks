@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Weak Entities</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Exam attempt</th>
+      <th>Entity</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @weak_entities.each do |weak_entity| %>
+      <tr>
+        <td><%= weak_entity.exam_attempt %></td>
+        <td><%= weak_entity.entity %></td>
+        <td><%= link_to 'Show', weak_entity %></td>
+        <td><%= link_to 'Edit', edit_weak_entity_path(weak_entity) %></td>
+        <td><%= link_to 'Destroy', weak_entity, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Weak Entity', new_weak_entity_path %>

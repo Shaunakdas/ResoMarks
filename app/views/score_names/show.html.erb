@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Display text:</strong>
+  <%= @score_name.display_text %>
+</p>
+
+<p>
+  <strong>Min:</strong>
+  <%= @score_name.min %>
+</p>
+
+<p>
+  <strong>Min include:</strong>
+  <%= @score_name.min_include %>
+</p>
+
+<p>
+  <strong>Max:</strong>
+  <%= @score_name.max %>
+</p>
+
+<p>
+  <strong>Max include:</strong>
+  <%= @score_name.max_include %>
+</p>
+
+<%= link_to 'Edit', edit_score_name_path(@score_name) %> |
+<%= link_to 'Back', score_names_path %>

@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Percentile:</strong>
+  <%= @user_group_reference_score.percentile %>
+</p>
+
+<p>
+  <strong>Rank:</strong>
+  <%= @user_group_reference_score.rank %>
+</p>
+
+<p>
+  <strong>User entity score:</strong>
+  <%= @user_group_reference_score.user_entity_score %>
+</p>
+
+<p>
+  <strong>Group:</strong>
+  <%= @user_group_reference_score.group %>
+</p>
+
+<p>
+  <strong>Entity:</strong>
+  <%= @user_group_reference_score.entity %>
+</p>
+
+<%= link_to 'Edit', edit_user_group_reference_score_path(@user_group_reference_score) %> |
+<%= link_to 'Back', user_group_reference_scores_path %>

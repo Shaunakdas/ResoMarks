@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>User Group Reference Scores</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Percentile</th>
+      <th>Rank</th>
+      <th>User entity score</th>
+      <th>Group</th>
+      <th>Entity</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @user_group_reference_scores.each do |user_group_reference_score| %>
+      <tr>
+        <td><%= user_group_reference_score.percentile %></td>
+        <td><%= user_group_reference_score.rank %></td>
+        <td><%= user_group_reference_score.user_entity_score %></td>
+        <td><%= user_group_reference_score.group %></td>
+        <td><%= user_group_reference_score.entity %></td>
+        <td><%= link_to 'Show', user_group_reference_score %></td>
+        <td><%= link_to 'Edit', edit_user_group_reference_score_path(user_group_reference_score) %></td>
+        <td><%= link_to 'Destroy', user_group_reference_score, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New User Group Reference Score', new_user_group_reference_score_path %>

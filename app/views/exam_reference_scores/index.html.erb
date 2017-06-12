@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Exam Reference Scores</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Average</th>
+      <th>Maximum</th>
+      <th>Highest</th>
+      <th>Lowest</th>
+      <th>Exam</th>
+      <th>Entity</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @exam_reference_scores.each do |exam_reference_score| %>
+      <tr>
+        <td><%= exam_reference_score.average %></td>
+        <td><%= exam_reference_score.maximum %></td>
+        <td><%= exam_reference_score.highest %></td>
+        <td><%= exam_reference_score.lowest %></td>
+        <td><%= exam_reference_score.exam %></td>
+        <td><%= exam_reference_score.entity %></td>
+        <td><%= link_to 'Show', exam_reference_score %></td>
+        <td><%= link_to 'Edit', edit_exam_reference_score_path(exam_reference_score) %></td>
+        <td><%= link_to 'Destroy', exam_reference_score, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Exam Reference Score', new_exam_reference_score_path %>

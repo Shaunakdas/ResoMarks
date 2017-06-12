@@ -1,0 +1,32 @@
+<%= form_for(spi) do |f| %>
+  <% if spi.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(spi.errors.count, "error") %> prohibited this spi from being saved:</h2>
+
+      <ul>
+      <% spi.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :value %>
+    <%= f.text_field :value %>
+  </div>
+
+  <div class="field">
+    <%= f.label :exam_attempt_id %>
+    <%= f.text_field :exam_attempt_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :target_exam_id %>
+    <%= f.text_field :target_exam_id %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

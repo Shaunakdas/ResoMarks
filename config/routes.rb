@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  resources :user_exam_difficulty_breakups
+  resources :exam_difficulty_breakups
+  resources :user_group_reference_scores
+  resources :exam_reference_scores
+  resources :weak_entities
+  resources :spis
+  resources :target_exams
+  resources :score_names
   resources :entity_scores
   resources :attempt_answers
   resources :answers

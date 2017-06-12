@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Score Names</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Display text</th>
+      <th>Min</th>
+      <th>Min include</th>
+      <th>Max</th>
+      <th>Max include</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @score_names.each do |score_name| %>
+      <tr>
+        <td><%= score_name.display_text %></td>
+        <td><%= score_name.min %></td>
+        <td><%= score_name.min_include %></td>
+        <td><%= score_name.max %></td>
+        <td><%= score_name.max_include %></td>
+        <td><%= link_to 'Show', score_name %></td>
+        <td><%= link_to 'Edit', edit_score_name_path(score_name) %></td>
+        <td><%= link_to 'Destroy', score_name, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Score Name', new_score_name_path %>

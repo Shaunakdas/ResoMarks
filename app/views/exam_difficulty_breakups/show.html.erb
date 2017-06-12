@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Count:</strong>
+  <%= @exam_difficulty_breakup.count %>
+</p>
+
+<p>
+  <strong>Exam:</strong>
+  <%= @exam_difficulty_breakup.exam %>
+</p>
+
+<p>
+  <strong>Difficulty level:</strong>
+  <%= @exam_difficulty_breakup.difficulty_level %>
+</p>
+
+<%= link_to 'Edit', edit_exam_difficulty_breakup_path(@exam_difficulty_breakup) %> |
+<%= link_to 'Back', exam_difficulty_breakups_path %>

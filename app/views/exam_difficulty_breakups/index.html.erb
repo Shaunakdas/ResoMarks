@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Exam Difficulty Breakups</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Count</th>
+      <th>Exam</th>
+      <th>Difficulty level</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @exam_difficulty_breakups.each do |exam_difficulty_breakup| %>
+      <tr>
+        <td><%= exam_difficulty_breakup.count %></td>
+        <td><%= exam_difficulty_breakup.exam %></td>
+        <td><%= exam_difficulty_breakup.difficulty_level %></td>
+        <td><%= link_to 'Show', exam_difficulty_breakup %></td>
+        <td><%= link_to 'Edit', edit_exam_difficulty_breakup_path(exam_difficulty_breakup) %></td>
+        <td><%= link_to 'Destroy', exam_difficulty_breakup, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Exam Difficulty Breakup', new_exam_difficulty_breakup_path %>

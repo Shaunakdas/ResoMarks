@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  exam_attempt: one
+  entity: one
+  entity_type: Entity
+
+two:
+  exam_attempt: two
+  entity: two
+  entity_type: Entity

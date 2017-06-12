@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  percentile: 9.99
+  rank: 1
+  user_entity_score: one
+  group: one
+  group_type: Group
+  entity: one
+  entity_type: Entity
+
+two:
+  percentile: 9.99
+  rank: 1
+  user_entity_score: two
+  group: two
+  group_type: Group
+  entity: two
+  entity_type: Entity

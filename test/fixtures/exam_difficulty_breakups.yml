@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  count: 1
+  exam: one
+  difficulty_level: one
+
+two:
+  count: 1
+  exam: two
+  difficulty_level: two

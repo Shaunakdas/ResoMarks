@@ -8,7 +8,7 @@ rails generate scaffold Subtopic name:string sequence_number:integer code:string
 
 rails generate scaffold User first_name:string last_name:string roll_number:string role:string email:string encrypted_password:string reset_password_token:string reset_password_sent_at:date sign_in_count:integer current_sign_in_at:date last_sign_in_at:date current_sign_in_ip:string last_sign_in_ip:string remember_created_at:date confirmation_token:string confirmed_at:date confirmation_sent_at:date
 
-rails generate scaffold UserPhoneNumber number:string  user:references
+rails generate scaffold UserPhoneNumber number:string user:references
 rails generate scaffold AuthToken number:string auth_token:string otp:integer device_id:string user:references
 
 rails generate scaffold DifficultyLevel name:string number:integer value:integer code:string
@@ -16,15 +16,50 @@ rails generate scaffold DifficultyLevel name:string number:integer value:integer
 rails generate scaffold Exam name:string sequence_number:integer exam_date:date code:string
 rails generate scaffold ExamSet name:string sequence_number:integer exam_date:date code:string exam:references 
 rails generate scaffold ExamAttempt name:string exam:references exam_set:references user:references
+rails generate scaffold TargetExam name:string 
 
-rails generate scaffold Question text:string hint_text:string partial:boolean correct_score:integer incorrect_score:integer blank_score:integer per_option_score:integer difficulty_level:references subject:references standard:references chapter:references stream:references subtopic:references exam:references exam_set:references
+rails generate scaffold Question text:string sequence_number:integer hint_text:string partial:boolean correct_score:integer incorrect_score:integer blank_score:integer per_option_score:integer difficulty_level:references subject:references standard:references chapter:references stream:references subtopic:references exam:references exam_set:references
 rails generate scaffold Answer text:string option_text:string sequence_number:integer correct:boolean question:references 
 
 rails generate scaffold AttemptAnswer answer:references question:references exam_attempt:references
-
-rails generate scaffold EntityScore entity:references{polymorphic}:index user:references exam_set:references exam:references
+//Add ScoreName first
+rails generate scaffold ScoreName display_text:string min:decimal min_include:boolean max:decimal max_include:boolean
+//Change user:references exam:references to -> exam_attempt:references; Add value:decimal, percentage:decimal effective_score:decimal score_name:references; Change Name to UserEntityScore
+rails generate scaffold UserEntityScore value:decimal percentage:decimal effective_score:decimal entity:references{polymorphic}:index exam_attempt:references exam_set:references score_name:references
 
 rails db:migrate
 
 rails generate controller api/question
 //Change heading of QuestionController to "class Api::QuestionController < ApiController"
+
+//Pending
+
+//:Group , display_text (State, All India, Study Center)
+//Per exam attempt, per target exam :Spi
+rails generate scaffold Spi value:decimal exam_attempt:references target_exam:references
+
+//Per exam attempt, per entity :Weak entities
+rails generate scaffold WeakEntity exam_attempt:references entity:references{polymorphic}:index
+
+//Per exam, per entity, :average score
+//Per exam, per entity, :maximum score
+//Per exam, per entity, :highest score
+rails generate scaffold ExamReferenceScore average:decimal maximum:decimal highest:decimal lowest:decimal exam:references entity:references{polymorphic}:index
+
+//Per exam attempt, per entity, :student score
+//Per exam attempt, per entity, :student percentage
+//Per exam attempt, per entity, :student percentile
+//Per user entity score, :student rank
+rails generate scaffold UserGroupReferenceScore percentile:decimal rank:integer user_entity_score:references group:references{polymorphic}:index entity:references{polymorphic}:index 
+
+//Per exam, per difficulty level, :total question count
+rails generate scaffold ExamDifficultyBreakup count:integer exam:references difficulty_level:references
+
+//Per exam attempt, per difficulty level, :correct question count
+//Per exam attempt, per difficulty level, :incorrect question count
+//Per exam attempt, per difficulty level, :attempted question count
+rails generate scaffold UserExamDifficultyBreakup correct:integer incorrect:integer attempted:integer exam_attempt:references difficulty_level:references
+
+//Per exam_attempt, per entity, :effective score (out of 0 and 1)
+//:score name
+

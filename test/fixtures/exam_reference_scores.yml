@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  average: 9.99
+  maximum: 9.99
+  highest: 9.99
+  lowest: 9.99
+  exam: one
+  entity: one
+  entity_type: Entity
+
+two:
+  average: 9.99
+  maximum: 9.99
+  highest: 9.99
+  lowest: 9.99
+  exam: two
+  entity: two
+  entity_type: Entity

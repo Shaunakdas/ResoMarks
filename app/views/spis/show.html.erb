@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Value:</strong>
+  <%= @spi.value %>
+</p>
+
+<p>
+  <strong>Exam attempt:</strong>
+  <%= @spi.exam_attempt %>
+</p>
+
+<p>
+  <strong>Target exam:</strong>
+  <%= @spi.target_exam %>
+</p>
+
+<%= link_to 'Edit', edit_spi_path(@spi) %> |
+<%= link_to 'Back', spis_path %>

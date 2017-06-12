@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Target Exams</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @target_exams.each do |target_exam| %>
+      <tr>
+        <td><%= target_exam.name %></td>
+        <td><%= link_to 'Show', target_exam %></td>
+        <td><%= link_to 'Edit', edit_target_exam_path(target_exam) %></td>
+        <td><%= link_to 'Destroy', target_exam, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Target Exam', new_target_exam_path %>

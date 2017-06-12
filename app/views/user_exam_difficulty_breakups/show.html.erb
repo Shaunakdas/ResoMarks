@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Correct:</strong>
+  <%= @user_exam_difficulty_breakup.correct %>
+</p>
+
+<p>
+  <strong>Incorrect:</strong>
+  <%= @user_exam_difficulty_breakup.incorrect %>
+</p>
+
+<p>
+  <strong>Attempted:</strong>
+  <%= @user_exam_difficulty_breakup.attempted %>
+</p>
+
+<p>
+  <strong>Exam attempt:</strong>
+  <%= @user_exam_difficulty_breakup.exam_attempt %>
+</p>
+
+<p>
+  <strong>Difficulty level:</strong>
+  <%= @user_exam_difficulty_breakup.difficulty_level %>
+</p>
+
+<%= link_to 'Edit', edit_user_exam_difficulty_breakup_path(@user_exam_difficulty_breakup) %> |
+<%= link_to 'Back', user_exam_difficulty_breakups_path %>

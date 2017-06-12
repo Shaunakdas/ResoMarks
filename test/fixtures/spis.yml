@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  value: 9.99
+  exam_attempt: one
+  target_exam: one
+
+two:
+  value: 9.99
+  exam_attempt: two
+  target_exam: two

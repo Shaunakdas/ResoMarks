@@ -1,0 +1,2 @@
+module UserGroupReferenceScoresHelper
+end

@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  display_text: MyString
+  min: 9.99
+  min_include: false
+  max: 9.99
+  max_include: false
+
+two:
+  display_text: MyString
+  min: 9.99
+  min_include: false
+  max: 9.99
+  max_include: false

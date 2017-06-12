@@ -1,0 +1,32 @@
+<%= form_for(exam_difficulty_breakup) do |f| %>
+  <% if exam_difficulty_breakup.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(exam_difficulty_breakup.errors.count, "error") %> prohibited this exam_difficulty_breakup from being saved:</h2>
+
+      <ul>
+      <% exam_difficulty_breakup.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :count %>
+    <%= f.number_field :count %>
+  </div>
+
+  <div class="field">
+    <%= f.label :exam_id %>
+    <%= f.text_field :exam_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :difficulty_level_id %>
+    <%= f.text_field :difficulty_level_id %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

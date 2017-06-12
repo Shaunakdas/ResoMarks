@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Spis</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Value</th>
+      <th>Exam attempt</th>
+      <th>Target exam</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @spis.each do |spi| %>
+      <tr>
+        <td><%= spi.value %></td>
+        <td><%= spi.exam_attempt %></td>
+        <td><%= spi.target_exam %></td>
+        <td><%= link_to 'Show', spi %></td>
+        <td><%= link_to 'Edit', edit_spi_path(spi) %></td>
+        <td><%= link_to 'Destroy', spi, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Spi', new_spi_path %>

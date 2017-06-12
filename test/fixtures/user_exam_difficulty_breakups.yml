@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  correct: 1
+  incorrect: 1
+  attempted: 1
+  exam_attempt: one
+  difficulty_level: one
+
+two:
+  correct: 1
+  incorrect: 1
+  attempted: 1
+  exam_attempt: two
+  difficulty_level: two

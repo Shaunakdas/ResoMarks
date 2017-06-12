@@ -1,0 +1,42 @@
+<%= form_for(user_exam_difficulty_breakup) do |f| %>
+  <% if user_exam_difficulty_breakup.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(user_exam_difficulty_breakup.errors.count, "error") %> prohibited this user_exam_difficulty_breakup from being saved:</h2>
+
+      <ul>
+      <% user_exam_difficulty_breakup.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :correct %>
+    <%= f.number_field :correct %>
+  </div>
+
+  <div class="field">
+    <%= f.label :incorrect %>
+    <%= f.number_field :incorrect %>
+  </div>
+
+  <div class="field">
+    <%= f.label :attempted %>
+    <%= f.number_field :attempted %>
+  </div>
+
+  <div class="field">
+    <%= f.label :exam_attempt_id %>
+    <%= f.text_field :exam_attempt_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :difficulty_level_id %>
+    <%= f.text_field :difficulty_level_id %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
