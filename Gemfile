@@ -11,6 +11,8 @@ gem 'jbuilder',     '2.4.1'
 
 group :development, :test do
   gem 'mysql2', '0.4.6'
+  gem 'rubyXL'
+  gem 'spreadsheet'
   gem 'byebug',  '9.0.0', platform: :mri
 end
 

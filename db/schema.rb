@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170612125719) do
+ActiveRecord::Schema.define(version: 20170612131145) do
 
   create_table "answers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "text"
@@ -143,6 +143,7 @@ ActiveRecord::Schema.define(version: 20170612125719) do
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
     t.integer  "sequence_number"
+    t.boolean  "bonus"
     t.index ["chapter_id"], name: "index_questions_on_chapter_id", using: :btree
     t.index ["difficulty_level_id"], name: "index_questions_on_difficulty_level_id", using: :btree
     t.index ["exam_id"], name: "index_questions_on_exam_id", using: :btree

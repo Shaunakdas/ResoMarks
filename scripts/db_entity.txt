@@ -1,0 +1,31 @@
+Initiation
+--From Admin Panel
+Exam
+Paper Code
+
+--From Topic List Excel
+Standard??
+Subject
+Chapter??
+Topic
+SubTopic
+Difficulty Level??
+
+--From Student Option Excel
+User(Roll No)
+
+--From Question Breakup
+Question
+
+
+Attributes
+Question
+-(correct_score,incorrect_score,blank_score,per_option_score,answer_key_text)
+-Ref(Standard,Subject,Chapter,Topic,SubTopic,Exam,PaperCode)
+
+UserScore
+-Average Score 
+-Highest Score
+-User Percentage (EntityScore field maybe??)
+-User Percentile (EntityScore field maybe??)
+-Weak Topics
