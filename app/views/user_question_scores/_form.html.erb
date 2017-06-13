@@ -1,0 +1,72 @@
+<%= form_for(user_question_score) do |f| %>
+  <% if user_question_score.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(user_question_score.errors.count, "error") %> prohibited this user_question_score from being saved:</h2>
+
+      <ul>
+      <% user_question_score.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :correct %>
+    <%= f.check_box :correct %>
+  </div>
+
+  <div class="field">
+    <%= f.label :incorrect %>
+    <%= f.check_box :incorrect %>
+  </div>
+
+  <div class="field">
+    <%= f.label :blank %>
+    <%= f.check_box :blank %>
+  </div>
+
+  <div class="field">
+    <%= f.label :partial %>
+    <%= f.check_box :partial %>
+  </div>
+
+  <div class="field">
+    <%= f.label :value %>
+    <%= f.text_field :value %>
+  </div>
+
+  <div class="field">
+    <%= f.label :percentage %>
+    <%= f.text_field :percentage %>
+  </div>
+
+  <div class="field">
+    <%= f.label :effective_score %>
+    <%= f.text_field :effective_score %>
+  </div>
+
+  <div class="field">
+    <%= f.label :question_id %>
+    <%= f.text_field :question_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :exam_attempt_id %>
+    <%= f.text_field :exam_attempt_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :exam_set_id %>
+    <%= f.text_field :exam_set_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :score_name_id %>
+    <%= f.text_field :score_name_id %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

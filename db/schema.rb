@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170612165210) do
+ActiveRecord::Schema.define(version: 20170613110846) do
 
   create_table "answers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "text"
@@ -79,6 +79,11 @@ ActiveRecord::Schema.define(version: 20170612165210) do
     t.decimal  "effective_score", precision: 10
     t.integer  "exam_attempt_id"
     t.integer  "score_name_id"
+    t.integer  "correct_count"
+    t.integer  "incorrect_count"
+    t.integer  "bonus_count"
+    t.integer  "partial_count"
+    t.integer  "blank_count"
     t.index ["entity_type", "entity_id"], name: "index_entity_scores_on_entity_type_and_entity_id", using: :btree
     t.index ["exam_attempt_id"], name: "index_entity_scores_on_exam_attempt_id", using: :btree
     t.index ["exam_set_id"], name: "index_entity_scores_on_exam_set_id", using: :btree
@@ -293,6 +298,27 @@ ActiveRecord::Schema.define(version: 20170612165210) do
     t.index ["user_id"], name: "index_user_phone_numbers_on_user_id", using: :btree
   end
 
+  create_table "user_question_scores", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.boolean  "correct"
+    t.boolean  "incorrect"
+    t.boolean  "blank"
+    t.boolean  "partial"
+    t.decimal  "value",           precision: 10
+    t.decimal  "percentage",      precision: 10
+    t.decimal  "effective_score", precision: 10
+    t.integer  "question_id"
+    t.integer  "exam_attempt_id"
+    t.integer  "exam_set_id"
+    t.integer  "score_name_id"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.boolean  "bonus"
+    t.index ["exam_attempt_id"], name: "index_user_question_scores_on_exam_attempt_id", using: :btree
+    t.index ["exam_set_id"], name: "index_user_question_scores_on_exam_set_id", using: :btree
+    t.index ["question_id"], name: "index_user_question_scores_on_question_id", using: :btree
+    t.index ["score_name_id"], name: "index_user_question_scores_on_score_name_id", using: :btree
+  end
+
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "first_name"
     t.string   "last_name"
@@ -365,5 +391,9 @@ ActiveRecord::Schema.define(version: 20170612165210) do
   add_foreign_key "user_exam_difficulty_breakups", "exam_attempts"
   add_foreign_key "user_group_reference_scores", "entity_scores", column: "user_entity_score_id"
   add_foreign_key "user_phone_numbers", "users"
+  add_foreign_key "user_question_scores", "exam_attempts"
+  add_foreign_key "user_question_scores", "exam_sets"
+  add_foreign_key "user_question_scores", "questions"
+  add_foreign_key "user_question_scores", "score_names"
   add_foreign_key "weak_entities", "exam_attempts"
 end

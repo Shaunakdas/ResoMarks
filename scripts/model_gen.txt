@@ -25,8 +25,9 @@ rails generate scaffold AttemptAnswer answer:references question:references exam
 //Add ScoreName first
 rails generate scaffold ScoreName display_text:string min:decimal min_include:boolean max:decimal max_include:boolean
 //Change user:references exam:references to -> exam_attempt:references; Add value:decimal, percentage:decimal effective_score:decimal score_name:references; Change Name to UserEntityScore
-rails generate scaffold UserEntityScore value:decimal percentage:decimal effective_score:decimal entity:references{polymorphic}:index exam_attempt:references exam_set:references score_name:references
+rails generate scaffold UserEntityScore value:decimal percentage:decimal effective_score:decimal entity:references{polymorphic}:index exam_attempt:references exam_set:references score_name:references correct_count:integer incorrect_count:integer bonus_count:integer partial_count:integer blank_count:integer
 
+rails generate scaffold UserQuestionScore correct:boolean incorrect:boolean blank:boolean partial:boolean value:decimal percentage:decimal effective_score:decimal question:references exam_attempt:references exam_set:references score_name:references
 rails db:migrate
 
 rails generate controller api/question

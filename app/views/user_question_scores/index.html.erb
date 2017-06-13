@@ -1,0 +1,47 @@
+<p id="notice"><%= notice %></p>
+
+<h1>User Question Scores</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Correct</th>
+      <th>Incorrect</th>
+      <th>Blank</th>
+      <th>Partial</th>
+      <th>Value</th>
+      <th>Percentage</th>
+      <th>Effective score</th>
+      <th>Question</th>
+      <th>Exam attempt</th>
+      <th>Exam set</th>
+      <th>Score name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @user_question_scores.each do |user_question_score| %>
+      <tr>
+        <td><%= user_question_score.correct %></td>
+        <td><%= user_question_score.incorrect %></td>
+        <td><%= user_question_score.blank %></td>
+        <td><%= user_question_score.partial %></td>
+        <td><%= user_question_score.value %></td>
+        <td><%= user_question_score.percentage %></td>
+        <td><%= user_question_score.effective_score %></td>
+        <td><%= user_question_score.question %></td>
+        <td><%= user_question_score.exam_attempt %></td>
+        <td><%= user_question_score.exam_set %></td>
+        <td><%= user_question_score.score_name %></td>
+        <td><%= link_to 'Show', user_question_score %></td>
+        <td><%= link_to 'Edit', edit_user_question_score_path(user_question_score) %></td>
+        <td><%= link_to 'Destroy', user_question_score, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New User Question Score', new_user_question_score_path %>

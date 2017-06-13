@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :user_question_scores
   resources :user_exam_difficulty_breakups
   resources :exam_difficulty_breakups
   resources :user_group_reference_scores

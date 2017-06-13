@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  correct: false
+  incorrect: false
+  blank: false
+  partial: false
+  value: 9.99
+  percentage: 9.99
+  effective_score: 9.99
+  question: one
+  exam_attempt: one
+  exam_set: one
+  score_name: one
+
+two:
+  correct: false
+  incorrect: false
+  blank: false
+  partial: false
+  value: 9.99
+  percentage: 9.99
+  effective_score: 9.99
+  question: two
+  exam_attempt: two
+  exam_set: two
+  score_name: two

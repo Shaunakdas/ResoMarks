@@ -1,0 +1,2 @@
+module UserQuestionScoresHelper
+end

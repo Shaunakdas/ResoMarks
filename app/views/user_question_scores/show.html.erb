@@ -1,0 +1,59 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Correct:</strong>
+  <%= @user_question_score.correct %>
+</p>
+
+<p>
+  <strong>Incorrect:</strong>
+  <%= @user_question_score.incorrect %>
+</p>
+
+<p>
+  <strong>Blank:</strong>
+  <%= @user_question_score.blank %>
+</p>
+
+<p>
+  <strong>Partial:</strong>
+  <%= @user_question_score.partial %>
+</p>
+
+<p>
+  <strong>Value:</strong>
+  <%= @user_question_score.value %>
+</p>
+
+<p>
+  <strong>Percentage:</strong>
+  <%= @user_question_score.percentage %>
+</p>
+
+<p>
+  <strong>Effective score:</strong>
+  <%= @user_question_score.effective_score %>
+</p>
+
+<p>
+  <strong>Question:</strong>
+  <%= @user_question_score.question %>
+</p>
+
+<p>
+  <strong>Exam attempt:</strong>
+  <%= @user_question_score.exam_attempt %>
+</p>
+
+<p>
+  <strong>Exam set:</strong>
+  <%= @user_question_score.exam_set %>
+</p>
+
+<p>
+  <strong>Score name:</strong>
+  <%= @user_question_score.score_name %>
+</p>
+
+<%= link_to 'Edit', edit_user_question_score_path(@user_question_score) %> |
+<%= link_to 'Back', user_question_scores_path %>
