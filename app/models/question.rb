@@ -5,6 +5,7 @@ class Question < ApplicationRecord
   belongs_to :chapter
   belongs_to :stream
   belongs_to :subtopic
+  belongs_to :topic
   belongs_to :exam
   belongs_to :exam_set
   has_many :answers

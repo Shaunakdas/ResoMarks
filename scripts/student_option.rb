@@ -1,6 +1,14 @@
 require 'rubyXL'
+exam_name="IAT_IJSO(07-05-2017)"
+exam=Exam.find_or_create_by(:name=>exam_name)
+exam.save!
+puts "Exam Record Generated Id:"+exam.id.to_s+" name"+exam.name
 
-book = RubyXL::Parser.parse('../Student_Option.xlsx')
+exam_set=ExamSet.find_or_create_by(:name=>exam_name, :exam_id=> exam.id)
+exam_set.save!
+puts "ExamSet Record Generated Id:"+exam_set.id.to_s+" name"+exam_set.name
+
+book = RubyXL::Parser.parse('/Users/shaunakdas2020/Documents/workspace/reso_marks/scripts/01_IAT_IJSO_KOTA_07-05-2017.xlsx')
 scq_sheet = book[0]
 title_row_index = 0
 row_start = 1

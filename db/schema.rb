@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170612131145) do
+ActiveRecord::Schema.define(version: 20170612165210) do
 
   create_table "answers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "text"
@@ -66,6 +66,23 @@ ActiveRecord::Schema.define(version: 20170612131145) do
     t.string   "code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "entity_scores", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "entity_type"
+    t.integer  "entity_id"
+    t.integer  "exam_set_id"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.decimal  "value",           precision: 10
+    t.decimal  "percentage",      precision: 10
+    t.decimal  "effective_score", precision: 10
+    t.integer  "exam_attempt_id"
+    t.integer  "score_name_id"
+    t.index ["entity_type", "entity_id"], name: "index_entity_scores_on_entity_type_and_entity_id", using: :btree
+    t.index ["exam_attempt_id"], name: "index_entity_scores_on_exam_attempt_id", using: :btree
+    t.index ["exam_set_id"], name: "index_entity_scores_on_exam_set_id", using: :btree
+    t.index ["score_name_id"], name: "index_entity_scores_on_score_name_id", using: :btree
   end
 
   create_table "exam_attempts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -144,6 +161,7 @@ ActiveRecord::Schema.define(version: 20170612131145) do
     t.datetime "updated_at",          null: false
     t.integer  "sequence_number"
     t.boolean  "bonus"
+    t.integer  "topic_id"
     t.index ["chapter_id"], name: "index_questions_on_chapter_id", using: :btree
     t.index ["difficulty_level_id"], name: "index_questions_on_difficulty_level_id", using: :btree
     t.index ["exam_id"], name: "index_questions_on_exam_id", using: :btree
@@ -152,6 +170,7 @@ ActiveRecord::Schema.define(version: 20170612131145) do
     t.index ["stream_id"], name: "index_questions_on_stream_id", using: :btree
     t.index ["subject_id"], name: "index_questions_on_subject_id", using: :btree
     t.index ["subtopic_id"], name: "index_questions_on_subtopic_id", using: :btree
+    t.index ["topic_id"], name: "index_questions_on_topic_id", using: :btree
   end
 
   create_table "score_names", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -239,23 +258,6 @@ ActiveRecord::Schema.define(version: 20170612131145) do
     t.index ["subject_id"], name: "index_topics_on_subject_id", using: :btree
   end
 
-  create_table "user_entity_scores", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "entity_type"
-    t.integer  "entity_id"
-    t.integer  "exam_set_id"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
-    t.decimal  "value",           precision: 10
-    t.decimal  "percentage",      precision: 10
-    t.decimal  "effective_score", precision: 10
-    t.integer  "exam_attempt_id"
-    t.integer  "score_name_id"
-    t.index ["entity_type", "entity_id"], name: "index_user_entity_scores_on_entity_type_and_entity_id", using: :btree
-    t.index ["exam_attempt_id"], name: "index_user_entity_scores_on_exam_attempt_id", using: :btree
-    t.index ["exam_set_id"], name: "index_user_entity_scores_on_exam_set_id", using: :btree
-    t.index ["score_name_id"], name: "index_user_entity_scores_on_score_name_id", using: :btree
-  end
-
   create_table "user_exam_difficulty_breakups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "correct"
     t.integer  "incorrect"
@@ -331,6 +333,7 @@ ActiveRecord::Schema.define(version: 20170612131145) do
   add_foreign_key "chapters", "standards"
   add_foreign_key "chapters", "streams"
   add_foreign_key "chapters", "subjects"
+  add_foreign_key "entity_scores", "exam_sets"
   add_foreign_key "exam_attempts", "exam_sets"
   add_foreign_key "exam_attempts", "exams"
   add_foreign_key "exam_attempts", "users"
@@ -358,10 +361,9 @@ ActiveRecord::Schema.define(version: 20170612131145) do
   add_foreign_key "topics", "standards"
   add_foreign_key "topics", "streams"
   add_foreign_key "topics", "subjects"
-  add_foreign_key "user_entity_scores", "exam_sets"
   add_foreign_key "user_exam_difficulty_breakups", "difficulty_levels"
   add_foreign_key "user_exam_difficulty_breakups", "exam_attempts"
-  add_foreign_key "user_group_reference_scores", "user_entity_scores"
+  add_foreign_key "user_group_reference_scores", "entity_scores", column: "user_entity_score_id"
   add_foreign_key "user_phone_numbers", "users"
   add_foreign_key "weak_entities", "exam_attempts"
 end

@@ -18,7 +18,7 @@ rails generate scaffold ExamSet name:string sequence_number:integer exam_date:da
 rails generate scaffold ExamAttempt name:string exam:references exam_set:references user:references
 rails generate scaffold TargetExam name:string 
 
-rails generate scaffold Question text:string bonus:boolean sequence_number:integer hint_text:string partial:boolean correct_score:integer incorrect_score:integer blank_score:integer per_option_score:integer difficulty_level:references subject:references standard:references chapter:references stream:references subtopic:references exam:references exam_set:references
+rails generate scaffold Question text:string bonus:boolean sequence_number:integer hint_text:string partial:boolean correct_score:integer incorrect_score:integer blank_score:integer per_option_score:integer difficulty_level:references subject:references standard:references chapter:references stream:references topic:references subtopic:references exam:references exam_set:references
 rails generate scaffold Answer text:string option_text:string sequence_number:integer correct:boolean question:references 
 
 rails generate scaffold AttemptAnswer answer:references question:references exam_attempt:references

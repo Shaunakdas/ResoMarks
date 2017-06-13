@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resources :spis
   resources :target_exams
   resources :score_names
-  resources :entity_scores
+  resources :user_entity_scores
   resources :attempt_answers
   resources :answers
   resources :questions
