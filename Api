@@ -1,0 +1,13 @@
+      create  app/controllers/difficulty_breakup_controller.rb
+      invoke  erb
+      create    app/views/difficulty_breakup
+      invoke  test_unit
+      create    test/controllers/difficulty_breakup_controller_test.rb
+      invoke  helper
+      create    app/helpers/difficulty_breakup_helper.rb
+      invoke    test_unit
+      invoke  assets
+      invoke    coffee
+      create      app/assets/javascripts/difficulty_breakup.coffee
+      invoke    scss
+      create      app/assets/stylesheets/difficulty_breakup.scss

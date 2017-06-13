@@ -3,7 +3,20 @@ Rails.application.routes.draw do
   resources :user_exam_difficulty_breakups
   resources :exam_difficulty_breakups
   resources :user_group_reference_scores
-  resources :exam_reference_scores
+  resources :exam_reference_scores do 
+      collection do
+        get   :get_ref_score
+      end
+    end
+  namespace :api, :defaults => {:format => :json} do  
+    resources :reference_scores  do 
+      collection do
+        get   :get_ref_score
+        get   :get_only_score
+      end
+    end
+  end
+  resources :products
   resources :weak_entities
   resources :spis
   resources :target_exams

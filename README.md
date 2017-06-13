@@ -14,6 +14,7 @@ Things covered:
 * [Excel Parsing -xls](https://github.com/zdavatz/spreadsheet/blob/master/GUIDE.md) - For parsing xls files only.
 * [Excel Parsing -xlsx](https://github.com/weshatheleopard/rubyXL) - For parsing all other type of xlsx file
 * [Running scripts from Rails console](https://stackoverflow.com/questions/10313181/pass-ruby-script-file-to-rails-console) 
+* [Restarting already existing running server](https://stackoverflow.com/questions/15072846/server-is-already-running-in-rails)
 * Ruby version
 2.3.0
 
