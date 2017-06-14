@@ -15,6 +15,11 @@ Rails.application.routes.draw do
         get   :get_only_score
       end
     end
+    resources :analytics do 
+      collection do
+        get   :trial
+      end
+    end
   end
   resources :products
   resources :weak_entities

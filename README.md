@@ -18,6 +18,35 @@ Things covered:
 * Ruby version
 2.3.0
 
+** Adding Api controller
+```
+rails generate controller Analytics
+```
+Move analytics_controller from app/controllers to app/controllers/api.Add a method in the analytics_controller and change existing content as 
+```
+class Api::AnalyticsController < ApiController
+	def trial
+		response ={}
+	    render json: response.to_json, status: 200
+	end
+end
+```
+Inside config/routes.rb, first delete existing route 
+```
+resources :analytics
+```
+and add api route.
+```
+namespace :api, :defaults => {:format => :json} do  
+    resources :analytics  do 
+      collection do
+        get   :get_analytics
+      end
+    end
+  end
+```
+Now you can see the new api on [http://localhost:3000/api/analytics/get_analytics](http://localhost:3000/api/analytics/get_analytics)
+
 * System dependencies
 
 * Configuration
