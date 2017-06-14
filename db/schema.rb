@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170614092825) do
+ActiveRecord::Schema.define(version: 20170614133403) do
 
   create_table "answers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "text"
@@ -72,11 +72,11 @@ ActiveRecord::Schema.define(version: 20170614092825) do
     t.string   "entity_type"
     t.integer  "entity_id"
     t.integer  "exam_set_id"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
-    t.decimal  "value",           precision: 10
-    t.decimal  "percentage",      precision: 10
-    t.decimal  "effective_score", precision: 10
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.decimal  "value",           precision: 10, scale: 4
+    t.decimal  "percentage",      precision: 10, scale: 4
+    t.decimal  "effective_score", precision: 10, scale: 4
     t.integer  "exam_attempt_id"
     t.integer  "score_name_id"
     t.integer  "correct_count"
@@ -113,15 +113,15 @@ ActiveRecord::Schema.define(version: 20170614092825) do
   end
 
   create_table "exam_reference_scores", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.decimal  "average",     precision: 10
-    t.decimal  "maximum",     precision: 10
-    t.decimal  "highest",     precision: 10
-    t.decimal  "lowest",      precision: 10
+    t.decimal  "average",     precision: 10, scale: 4
+    t.decimal  "maximum",     precision: 10, scale: 4
+    t.decimal  "highest",     precision: 10, scale: 4
+    t.decimal  "lowest",      precision: 10, scale: 4
     t.integer  "exam_id"
     t.string   "entity_type"
     t.integer  "entity_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
     t.index ["entity_type", "entity_id"], name: "index_exam_reference_scores_on_entity_type_and_entity_id", using: :btree
     t.index ["exam_id"], name: "index_exam_reference_scores_on_exam_id", using: :btree
   end
@@ -180,20 +180,20 @@ ActiveRecord::Schema.define(version: 20170614092825) do
 
   create_table "score_names", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "display_text"
-    t.decimal  "min",          precision: 10
+    t.decimal  "min",          precision: 10, scale: 2
     t.boolean  "min_include"
-    t.decimal  "max",          precision: 10
+    t.decimal  "max",          precision: 10, scale: 2
     t.boolean  "max_include"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
   end
 
   create_table "spis", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.decimal  "value",           precision: 10
+    t.decimal  "value",           precision: 10, scale: 4
     t.integer  "exam_attempt_id"
     t.integer  "target_exam_id"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
     t.index ["exam_attempt_id"], name: "index_spis_on_exam_attempt_id", using: :btree
     t.index ["target_exam_id"], name: "index_spis_on_target_exam_id", using: :btree
   end
@@ -276,14 +276,14 @@ ActiveRecord::Schema.define(version: 20170614092825) do
   end
 
   create_table "user_group_reference_scores", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.decimal  "percentile",      precision: 10
+    t.decimal  "percentile",      precision: 10, scale: 4
     t.integer  "rank"
     t.string   "group_type"
     t.integer  "group_id"
     t.string   "entity_type"
     t.integer  "entity_id"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
     t.integer  "entity_score_id"
     t.index ["entity_score_id"], name: "index_user_group_reference_scores_on_entity_score_id", using: :btree
     t.index ["entity_type", "entity_id"], name: "index_user_group_reference_scores_on_entity_type_and_entity_id", using: :btree
@@ -303,15 +303,15 @@ ActiveRecord::Schema.define(version: 20170614092825) do
     t.boolean  "incorrect"
     t.boolean  "blank"
     t.boolean  "partial"
-    t.decimal  "value",           precision: 10
-    t.decimal  "percentage",      precision: 10
-    t.decimal  "effective_score", precision: 10
+    t.decimal  "value",           precision: 10, scale: 4
+    t.decimal  "percentage",      precision: 10, scale: 4
+    t.decimal  "effective_score", precision: 10, scale: 4
     t.integer  "question_id"
     t.integer  "exam_attempt_id"
     t.integer  "exam_set_id"
     t.integer  "score_name_id"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
     t.boolean  "bonus"
     t.index ["exam_attempt_id"], name: "index_user_question_scores_on_exam_attempt_id", using: :btree
     t.index ["exam_set_id"], name: "index_user_question_scores_on_exam_set_id", using: :btree

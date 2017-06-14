@@ -220,19 +220,86 @@ Exam.all.each do |exam|
                 :average =>0, :maximum => 0, :highest => 0, :lowest => 0) if not exam_ref_score
         value_arr =[]
         ExamAttempt.where(:exam => exam).each do |attempt|
-            user_score = UserQuestionScore.where(:exam_attempt => attempt).first
+            user_score = EntityScore.where(:exam_attempt => attempt,:entity_type => 'Subject', :entity_id => subject.id).first
             puts "Adding user ques score "+user_score.value.to_s
             value_arr << user_score.value
         end
         exam_ref_score.highest = value_arr.max
         exam_ref_score.lowest = value_arr.min
         exam_ref_score.average = value_arr.inject{ |sum, el| sum + el }.to_f / value_arr.size
-        Question.where(:exam => exam).each do |question|
+        exam_ref_score.maximum=0
+        Question.where(:exam => exam, :subject => subject).each do |question|
             exam_ref_score.maximum = exam_ref_score.maximum + question.correct_score if not question.bonus
             exam_ref_score.maximum = exam_ref_score.maximum + question.bonus_score if question.bonus
         end
+        p exam_ref_score
         exam_ref_score.save!
     end
+    Topic.all.each do |topic|
+        exam_ref_score = ExamReferenceScore.where(:entity_type =>'Topic', :entity_id => topic.id, :exam => exam).first
+        exam_ref_score = ExamReferenceScore.create(:entity_type =>'Topic', :entity_id => topic.id, :exam => exam, 
+                :average =>0, :maximum => 0, :highest => 0, :lowest => 0) if not exam_ref_score
+        value_arr =[]
+        ExamAttempt.where(:exam => exam).each do |attempt|
+            user_score = EntityScore.where(:exam_attempt => attempt,:entity_type => 'Topic', :entity_id => topic.id).first
+            puts "Adding user ques score "+user_score.value.to_s
+            value_arr << user_score.value
+        end
+        exam_ref_score.highest = value_arr.max
+        exam_ref_score.lowest = value_arr.min
+        exam_ref_score.average = value_arr.inject{ |sum, el| sum + el }.to_f / value_arr.size
+        exam_ref_score.maximum=0
+        Question.where(:exam => exam, :topic => topic).each do |question|
+            exam_ref_score.maximum = exam_ref_score.maximum + question.correct_score if not question.bonus
+            exam_ref_score.maximum = exam_ref_score.maximum + question.bonus_score if question.bonus
+        end
+        p exam_ref_score
+        exam_ref_score.save!
+    end
+    Standard.all.each do |standard|
+        exam_ref_score = ExamReferenceScore.where(:entity_type =>'Standard', :entity_id => standard.id, :exam => exam).first
+        exam_ref_score = ExamReferenceScore.create(:entity_type =>'Standard', :entity_id => standard.id, :exam => exam, 
+                :average =>0, :maximum => 0, :highest => 0, :lowest => 0) if not exam_ref_score
+        value_arr =[]
+        ExamAttempt.where(:exam => exam).each do |attempt|
+            user_score = EntityScore.where(:exam_attempt => attempt,:entity_type => 'Standard', :entity_id => standard.id).first
+            puts "Adding user ques score "+user_score.value.to_s
+            value_arr << user_score.value
+        end
+        exam_ref_score.highest = value_arr.max
+        exam_ref_score.lowest = value_arr.min
+        exam_ref_score.average = value_arr.inject{ |sum, el| sum + el }.to_f / value_arr.size
+        exam_ref_score.maximum=0
+        Question.where(:exam => exam, :standard => standard).each do |question|
+            exam_ref_score.maximum = exam_ref_score.maximum + question.correct_score if not question.bonus
+            exam_ref_score.maximum = exam_ref_score.maximum + question.bonus_score if question.bonus
+        end
+        p exam_ref_score
+        exam_ref_score.save!
+    end
+end
+#Generating Score Name
+score_names = ['Strong','Average','Weak']
+score_min = [0.75,0.25,0]
+score_max = [1,0.75,0.25]
+score_names.each_with_index do |score_name, index|
+    score = ScoreName.where(:display_text => score_name).first
+    score = ScoreName.create(:display_text => score_name) if not score
+    score.update_columns(:max => score_min[index], :min => score_max[index])
+    score.save!
+end
+EntityScore.all.each do |entity_score|
+    user_score = entity_score.value
+    p entity_score.entity_type
+    p entity_score.entity_id
+    p entity_score.exam_attempt.exam
+    max_score = ExamReferenceScore.where(:entity_type =>entity_score.entity_type, :entity_id => entity_score.entity_id, :exam => entity_score.exam_attempt.exam).first
+    entity_score.effective_score = (user_score.to_f/max_score.maximum)
+    ScoreName.all.each do |score_name|
+        p score_name.max
+        entity_score.score_name = score_name if entity_score.effective_score.between?(score_name.min,score_name.max)
+    end
+    entity_score.save!
 end
 #Calculating UserGroupReferenceScore For Entity: Subjects,
 Exam.all.each do |exam|

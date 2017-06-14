@@ -40,17 +40,17 @@ class Api::AnalyticsController < ApiController
 		user_ref_score_hash["user_percentage"]||={}
 		Subject.all.each do |subject|
 			exam_ref_score = ExamReferenceScore.where(:exam => exam, :entity_type => 'Subject', :entity_id => subject.id).first
-			user_ref_score_hash["maximum_score"][subject.name]=exam_ref_score.maximum
-			user_ref_score_hash["average_score"][subject.name]=exam_ref_score.average
-			user_ref_score_hash["highest_score"][subject.name]=exam_ref_score.highest
-			entity_subj_score = EntityScore.where(:entity_type =>'Subject', :exam_attempt => exam_attempt).first
-			user_ref_score = UserGroupReferenceScore.where(:entity_score => entity_subj_score, :entity_type => 'Subject', :entity_id => subject.id).first
-			user_ref_score_hash["maximum_score"][subject.name]=entity_subj_score.value
-			user_ref_score_hash["average_score"][subject.name]=user_ref_score.average
-			user_ref_score_hash["highest_score"][subject.name]=user_ref_score.highest
+			user_ref_score_hash["maximum_score"][subject.name]=exam_ref_score.maximum.round(2)
+			user_ref_score_hash["average_score"][subject.name]=exam_ref_score.average.round(2)
+			user_ref_score_hash["highest_score"][subject.name]=sprintf('%.2f', exam_ref_score.highest)
+			entity_subj_score = EntityScore.where(:entity_type =>'Subject', :exam_attempt => exam_attempt, :entity_id => subject.id).first
+			user_subj_score = UserGroupReferenceScore.where(:entity_score => entity_subj_score, :entity_type => 'Subject', :entity_id => subject.id).first
+			user_ref_score_hash["user_score"][subject.name]=entity_subj_score.value.round(2)
+			user_ref_score_hash["user_percentile"][subject.name]=user_subj_score.percentile.round(2) if user_subj_score
+			user_ref_score_hash["user_percentage"][subject.name]=(entity_subj_score.value.to_f*100/exam_ref_score.maximum).round(2)
 		end
 
-
+		# Difficultywise breakup
 		diff_level||={}
 		DifficultyLevel.all.each do |level|
 			diff_level['name']||=[]; diff_level['name'] << level.name
@@ -65,6 +65,34 @@ class Api::AnalyticsController < ApiController
 		diff_level['user'] << diff_level['user'].inject(:+)
 		diff_level['exam'] << diff_level['exam'].inject(:+)
 
+		# UserQuestionScore for this exam
+		user_ques_score_list =[]
+
+		Question.where(:exam => exam).each do |ques|
+			user_ques_score={}
+			user_ques_score['seq']=ques.sequence_number
+			user_ques_score['subject']=ques.subject.name
+			user_ques_score['topic']=ques.topic.name
+			user_ques_score['difficulty']=ques.difficulty_level.name
+			user_score = UserQuestionScore.where(:exam_attempt => exam_attempt,:question => ques).first
+			if user_score.correct
+				user_ques_score['answer']=0
+			elsif user_score.incorrect
+				user_ques_score['answer']=1
+			else
+				user_ques_score['answer']=2
+			end
+			user_ques_score_list << user_ques_score
+		end
+		# Subjectwise topic effective score
+		subj_eff_score||={}
+		Subject.all.each do |subject|
+			subj_eff_score[subject.name]||={}
+			EntityScore.where(:exam_attempt => exam_attempt, :entity_type=> 'Topic').each do |user_topic_score|
+				topic = Topic.where(:id => user_topic_score.entity_id).first
+				subj_eff_score[subject.name][topic.name]=user_topic_score.effective_score
+			end
+		end
 
 	    # All India Rank
 	    response["air"]=user_ref_score.rank
@@ -73,13 +101,13 @@ class Api::AnalyticsController < ApiController
 	    # Subjectwise Weak Topics List
 	    response["weak_topic_list"]=subject_weak_topic_list
 	    # Subjectwise user reference scores and exam reference scores
-	    response["subjectwise_reference_scores"]||={}
+	    response["subjectwise_reference_scores"]=user_ref_score_hash
 	    # Difficultywise breakup
 	    response["difficulty_breakup"]=diff_level
 	    # Subjectwise topic effective score
-	    response["subjectwise_effective_score"]||={}
+	    response["subjectwise_effective_score"]=subj_eff_score
 	    # UserQuestionScore for this exam
-	    response["user_question_score"]||={}
+	    response["user_question_score"] = user_ques_score_list
 	    render json: response.to_json, status: 200
 	end
 end
