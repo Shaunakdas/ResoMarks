@@ -87,31 +87,32 @@ scq_sheet.each_with_index do |row, index|
     # puts "User Score Generated :"+user_score.id
   end
 end
-exam_name="IAT_IJSO(07-05-2017)"
-exam=Exam.find_or_create_by(:name=>exam_name)
-exam.save!
-puts "Exam Record Generated Id:"+exam.id.to_s+" name"+exam.name
+
 #Calculating ExamDifficultyBreakup
-DifficultyLevel.all.each do |level|
-    Question.where(:exam => exam, :difficulty_level => level).each do |question|
-        difficulty_breakup = ExamDifficultyBreakup.where(:exam =>exam, :difficulty_level => level).first
-        if difficulty_breakup
-            existing_breakup = difficulty_breakup.count
-            puts "Updating difficulty breakup with existing value "+existing_breakup.to_s+" of type "+level.name
-            difficulty_breakup.update_column(:count, existing_breakup+1)  
-        else
-            puts "Adding difficulty breakup with existing value "+existing_breakup.to_s+" of type "+level.name
-            difficulty_breakup = ExamDifficultyBreakup.create(:exam =>exam, :difficulty_level => level, :count => 0)
+Exam.all.each do |exam|
+    DifficultyLevel.all.each do |level|
+        Question.where(:exam => exam, :difficulty_level => level).each do |question|
+            difficulty_breakup = ExamDifficultyBreakup.where(:exam =>exam, :difficulty_level => level).first
+            if difficulty_breakup
+                existing_breakup = difficulty_breakup.count
+                puts "Updating difficulty breakup with existing value "+existing_breakup.to_s+" of type "+level.name
+                difficulty_breakup.update_column(:count, existing_breakup+1)  
+            else
+                puts "Adding difficulty breakup with existing value "+existing_breakup.to_s+" of type "+level.name
+                difficulty_breakup = ExamDifficultyBreakup.create(:exam =>exam, :difficulty_level => level, :count => 0)
+            end
         end
-    end
-end 
+    end 
+end
 #Calculating EntityScore For Entity: Question,Topics,Subjects,
 Exam.all.each do |exam|
     ExamAttempt.where(:exam => exam).each do |attempt|
         Question.where(:exam => exam).each do |question|
             puts "Question Score to be saved"+exam.name+"Ques. No. "+question.sequence_number.to_s+"Roll no. "+attempt.user.roll_number
-            question_score = UserQuestionScore.find_or_create_by(:question => question, :value => 0, :exam_attempt => attempt,
-                :bonus => false, :partial => false, :blank => false, :correct => false, :incorrect => false)
+            question_score = UserQuestionScore.where(:question => question, :exam_attempt => attempt).first
+            question_score = UserQuestionScore.create(:question => question, :value => 0, :exam_attempt => attempt,
+                :bonus => false, :partial => false, :blank => false, :correct => false, :incorrect => false) if not question_score
+            puts "Question Attribute "+question.bonus.to_s+question.partial.to_s
             if question.bonus
                 question_score.value = question_score.value + question.correct_score
                 question_score.bonus = true
@@ -124,15 +125,22 @@ Exam.all.each do |exam|
                 end
             else
                 ans_correct = false
-                attempt_answer_array = AttemptAnswer.where(:exam_attempt => attempt)
+                attempt_answer_array = AttemptAnswer.where(:exam_attempt => attempt, :question => question)
                 if attempt_answer_array.length ==0 
                     question_score.value = question_score.value + question.blank_score
                     question_score.blank = true
                 else
                     correct_answer = Answer.where(:question => question, :correct => true)
+                    p attempt_answer_array[0].answer.option_text
+                    p correct_answer[0].option_text
+                    puts "Correct Answer Score "+question.correct_score.to_s
+                    attempt_answer_array = attempt_answer_array.map{|x| x[:answer_id]}
+                    correct_answer = correct_answer.map{|x| x[:id]}
+                    p attempt_answer_array
+                    p correct_answer
                     ans_correct = (attempt_answer_array.sort == correct_answer.sort)
                     if ans_correct
-                        question_score.value = question_score.value + question.correct_answer 
+                        question_score.value = question_score.value + question.correct_score
                         question_score.correct = true ; question_score.incorrect = false
                     else 
                         question_score.value = question_score.value + question.incorrect_score
@@ -235,10 +243,24 @@ Exam.all.each do |exam|
         end
         subject_score_arr.sort
         EntityScore.where(:entity_type =>'Subject', :entity_id => subject.id).each do |entity_score|
-            user_ref_score = UserGroupReferenceScore.where(:entity_type =>'Subject', :entity_id => subject.id, :user_entity_score => entity_score).first
-            user_ref_score = UserGroupReferenceScore.create(:entity_type =>'Subject', :entity_id => subject.id, :user_entity_score => entity_score) if not user_ref_score
-            user_ref_score.rank = subject_score_arr.size - subject_score_arr.rindex(entity_score.value)+1
+            user_ref_score = UserGroupReferenceScore.where(:entity_type =>'Subject', :entity_id => subject.id, :entity_score => entity_score).first
+            user_ref_score = UserGroupReferenceScore.create(:entity_type =>'Subject', :entity_id => subject.id, :entity_score => entity_score) if not user_ref_score
+            user_ref_score.rank = subject_score_arr.size - subject_score_arr.index(entity_score.value)+1
             user_ref_score.percentile = (subject_score_arr.index(entity_score.value)).to_f*100/subject_score_arr.size
+            user_ref_score.save!
+        end
+    end
+    Standard.all.each do |standard|
+        standard_score_arr = []
+        ExamAttempt.where(:exam => exam).each do |attempt|
+            standard_score_arr << EntityScore.where(:entity_type =>'Standard', :entity_id => standard.id,  :exam_attempt => attempt).first.value
+        end
+        standard_score_arr.sort
+        EntityScore.where(:entity_type =>'Standard', :entity_id => standard.id).each do |entity_score|
+            user_ref_score = UserGroupReferenceScore.where(:entity_type =>'Standard', :entity_id => standard.id, :entity_score => entity_score).first
+            user_ref_score = UserGroupReferenceScore.create(:entity_type =>'Standard', :entity_id => standard.id, :entity_score => entity_score) if not user_ref_score
+            user_ref_score.rank = standard_score_arr.size - standard_score_arr.index(entity_score.value)+1
+            user_ref_score.percentile = (standard_score_arr.index(entity_score.value)).to_f*100/standard_score_arr.size
             user_ref_score.save!
         end
     end

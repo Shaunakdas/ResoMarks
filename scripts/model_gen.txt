@@ -51,7 +51,7 @@ rails generate scaffold ExamReferenceScore average:decimal maximum:decimal highe
 //Per exam attempt, per entity, :student percentage
 //Per exam attempt, per entity, :student percentile
 //Per user entity score, :student rank
-rails generate scaffold UserGroupReferenceScore percentile:decimal rank:integer user_entity_score:references group:references{polymorphic}:index entity:references{polymorphic}:index 
+rails generate scaffold UserGroupReferenceScore percentile:decimal rank:integer entity_score:references group:references{polymorphic}:index entity:references{polymorphic}:index 
 
 //Per exam, per difficulty level, :total question count
 rails generate scaffold ExamDifficultyBreakup count:integer exam:references difficulty_level:references

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170613110846) do
+ActiveRecord::Schema.define(version: 20170614092825) do
 
   create_table "answers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "text"
@@ -276,18 +276,18 @@ ActiveRecord::Schema.define(version: 20170613110846) do
   end
 
   create_table "user_group_reference_scores", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.decimal  "percentile",           precision: 10
+    t.decimal  "percentile",      precision: 10
     t.integer  "rank"
-    t.integer  "user_entity_score_id"
     t.string   "group_type"
     t.integer  "group_id"
     t.string   "entity_type"
     t.integer  "entity_id"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.integer  "entity_score_id"
+    t.index ["entity_score_id"], name: "index_user_group_reference_scores_on_entity_score_id", using: :btree
     t.index ["entity_type", "entity_id"], name: "index_user_group_reference_scores_on_entity_type_and_entity_id", using: :btree
     t.index ["group_type", "group_id"], name: "index_user_group_reference_scores_on_group_type_and_group_id", using: :btree
-    t.index ["user_entity_score_id"], name: "index_user_group_reference_scores_on_user_entity_score_id", using: :btree
   end
 
   create_table "user_phone_numbers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -389,7 +389,7 @@ ActiveRecord::Schema.define(version: 20170613110846) do
   add_foreign_key "topics", "subjects"
   add_foreign_key "user_exam_difficulty_breakups", "difficulty_levels"
   add_foreign_key "user_exam_difficulty_breakups", "exam_attempts"
-  add_foreign_key "user_group_reference_scores", "entity_scores", column: "user_entity_score_id"
+  add_foreign_key "user_group_reference_scores", "entity_scores"
   add_foreign_key "user_phone_numbers", "users"
   add_foreign_key "user_question_scores", "exam_attempts"
   add_foreign_key "user_question_scores", "exam_sets"

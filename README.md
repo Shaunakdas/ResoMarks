@@ -15,6 +15,7 @@ Things covered:
 * [Excel Parsing -xlsx](https://github.com/weshatheleopard/rubyXL) - For parsing all other type of xlsx file
 * [Running scripts from Rails console](https://stackoverflow.com/questions/10313181/pass-ruby-script-file-to-rails-console) 
 * [Restarting already existing running server](https://stackoverflow.com/questions/15072846/server-is-already-running-in-rails)
+* [Rolling back a failed Rails migration](https://stackoverflow.com/a/5466779)
 * Ruby version
 2.3.0
 
@@ -47,6 +48,11 @@ namespace :api, :defaults => {:format => :json} do
 ```
 Now you can see the new api on [http://localhost:3000/api/analytics/get_analytics](http://localhost:3000/api/analytics/get_analytics)
 
+* Execute file in Rails console
+
+```
+bundle exec rails runner "eval(File.read 'your_script.rb')"
+```
 * System dependencies
 
 * Configuration

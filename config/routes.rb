@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     end
     resources :analytics do 
       collection do
-        get   :trial
+        get   :get_analytics
       end
     end
   end

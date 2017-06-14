@@ -103,7 +103,7 @@ scq_sheet.each_with_index do |row, index|
 
     # Adding Per Option Score to question
     per_option_score = (row.cells[col_start+8])?(row.cells[col_start+8].value.to_i):0
-    partial_scoring =(row.cells[col_start+8])?true:false
+    partial_scoring =((row.cells[col_start+8])&&(row.cells[col_start+8].value.to_s.size>0))?true:false
     # if (row.cells[col_start+8])
     #     per_option_score = row.cells[col_start+8].value
     #     per_option_score = per_option_score.to_i
@@ -126,17 +126,23 @@ scq_sheet.each_with_index do |row, index|
     # Adding question
     question = Question.where(:sequence_number => sequence_number, :exam_id => exam.id).first
     puts "Question Id searched:"+question.id.to_s if question
-    if difficulty||subject ||standard ||chapter ||stream ||subtopic ||exam ||exam_set ||topic 
+    if not question
         new_question = Question.create( :partial => partial_scoring,:correct_score => correct_score, 
             :incorrect_score => incorrect_score, :blank_score => blank_score, :per_option_score => per_option_score,
             :difficulty_level_id => difficulty.id, :subject_id => subject.id,:standard => standard,:chapter => chapter,
             :stream => stream,:subtopic => subtopic, :sequence_number => sequence_number,:exam => exam,exam_set: exam_set, 
-            :bonus => bonus_flag,:topic => topic) if not question
-        puts "Question Id :"+new_question.id.to_s if not question
-        new_question.save! if not question
-        question = new_question if not question
-    else 
-        puts "Something doesnt exist"
+            :bonus => bonus_flag,:topic => topic)
+        puts "New Question Id :"+new_question.id.to_s 
+        new_question.save!
+        question = new_question
+    else
+        question.update_columns( :partial => partial_scoring,:correct_score => correct_score, 
+            :incorrect_score => incorrect_score, :blank_score => blank_score, :per_option_score => per_option_score,
+            :difficulty_level_id => difficulty.id, :subject_id => subject.id,:standard_id => standard.id,:chapter_id => chapter.id,
+            :stream_id => stream.id,:subtopic_id => subtopic.id, :sequence_number => sequence_number,:exam_id => exam.id,exam_set_id: exam_set.id, 
+            :bonus => bonus_flag,:topic_id => topic.id)
+        puts "Updated Question Id :"+question.id.to_s
+        question.save!
     end
     puts "Question Id(Out of loop) :"+question.id.to_s
     answers=['A','B','C','D']
