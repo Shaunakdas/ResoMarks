@@ -203,7 +203,7 @@ score_names.each_with_index do |score_name, index|
     score.update_columns(:max => score_max[index], :min => score_min[index])
     score.save!
 end
-
+weak_score = ScoreName.where(:display_text => 'Weak').first
 EntityScore.all.each do |entity_score|
     user_score = entity_score.value
     p entity_score.entity_type
@@ -212,6 +212,7 @@ EntityScore.all.each do |entity_score|
     max_score = ExamReferenceScore.where(:entity_type =>entity_score.entity_type, :entity_id => entity_score.entity_id, :exam => entity_score.exam_attempt.exam).first
     if max_score && max_score.maximum!=0
         entity_score.effective_score = (user_score.to_f/max_score.maximum)
+        entity_score.score_name = weak_score if entity_score.effective_score < 0
         ScoreName.all.each do |score_name|
             p entity_score.effective_score.to_f
             p score_name.min.to_f

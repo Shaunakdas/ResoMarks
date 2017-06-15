@@ -128,9 +128,11 @@ class Api::AnalyticsController < ApiController
 		subj_eff_score||={}
 		Subject.all.each do |subject|
 			subj_eff_score[subject.name]||={}
-			EntityScore.where(:exam_attempt => exam_attempt, :entity_type=> 'Topic').each do |user_topic_score|
-				topic = Topic.where(:id => user_topic_score.entity_id).first
-				subj_eff_score[subject.name][topic.name]=user_topic_score.effective_score
+			Topic.where(:subject => subject).each do |topic|
+				EntityScore.where(:exam_attempt => exam_attempt, :entity_type=> 'Topic', :entity_id => topic.id).each do |user_topic_score|
+					# topic = Topic.where(:id => user_topic_score.entity_id).first
+					subj_eff_score[subject.name][topic.name]=user_topic_score.effective_score
+				end
 			end
 		end
 		#Old Exam relation present
@@ -155,7 +157,7 @@ class Api::AnalyticsController < ApiController
 			# old_attempt_array.each do |old_attempt|
 				EntityScore.where(:score_name => weak_score, :exam_attempt => old_attempt, :entity_type=>'Topic').each do |old_entity_score|
 					p old_entity_score.entity_id
-					EntityScore.where(:score_name => weak_score, :exam_attempt => exam_attempt, :entity_type=>'Topic', :entity_id => old_entity_score.entity_id).each do |entity_score|
+					EntityScore.where( :exam_attempt => exam_attempt, :entity_type=>'Topic', :entity_id => old_entity_score.entity_id).each do |entity_score|
 						topic = Topic.where(:id=> old_entity_score.entity_id).first
 						p topic.name
 						old_weak_to_normal[topic.name]||={}
@@ -168,12 +170,14 @@ class Api::AnalyticsController < ApiController
 
 			# old_attempt_array.each do |old_attempt|
 				EntityScore.where(:score_name => weak_score, :exam_attempt => exam_attempt, :entity_type=>'Topic').each do |entity_score|
-					EntityScore.where(:score_name => weak_score, :exam_attempt => old_attempt, :entity_type=>'Topic', :entity_id => entity_score.entity_id).each do |old_entity_score|
-						topic = Topic.where(:id=> old_entity_score.entity_id).first
-						old_normal_to_weak[topic.name]||={}
-						# old_normal_to_weak[topic.name]['old_score'] = old_entity_score.value
-						old_normal_to_weak[topic.name]['old_score_name'] = old_entity_score.score_name.display_text
-						old_normal_to_weak[topic.name]['new_score_name'] = entity_score.score_name.display_text
+					EntityScore.where( :exam_attempt => old_attempt, :entity_type=>'Topic', :entity_id => entity_score.entity_id).each do |old_entity_score|
+						if (old_entity_score.score_name!= weak_score)
+							topic = Topic.where(:id=> old_entity_score.entity_id).first
+							old_normal_to_weak[topic.name]||={}
+							# old_normal_to_weak[topic.name]['old_score'] = old_entity_score.value
+							old_normal_to_weak[topic.name]['old_score_name'] = old_entity_score.score_name.display_text
+							old_normal_to_weak[topic.name]['new_score_name'] = entity_score.score_name.display_text
+						end
 					end
 				end
 			# end
@@ -212,7 +216,9 @@ class Api::AnalyticsController < ApiController
 	    ExamAttempt.where(:user=> user).each do |exam_attempt|
 	    	entity_score = EntityScore.where(:entity_type =>'Standard', :exam_attempt => exam_attempt).first if exam_attempt
 			user_ref_score = UserGroupReferenceScore.where(:entity_type =>'Standard', :entity_score => entity_score).first if exam_attempt && entity_score
-			response[exam_attempt.exam.name]=user_ref_score.rank
+			response[exam_attempt.exam.name]||={}
+			response[exam_attempt.exam.name]['exam_id']=exam_attempt.exam.id
+			response[exam_attempt.exam.name]['rank']=user_ref_score.rank
 			
 		end
 		render json: response.to_json, status: 200
