@@ -28,14 +28,14 @@
 # end
 require 'spreadsheet'
 Spreadsheet.client_encoding = 'UTF-8'
-book = Spreadsheet.open '../01_Revised_Answer Key OAT-1,NAT-1,IAT-1 (07-05-17).xls'
+book = Spreadsheet.open '01_REVAnswer Key (OCT-1, NCT-1, IAT-(CT) (21-05-17).xls'
 scq_sheet = book.worksheets[2]
 
 
 require 'rubyXL'
 
-write_book = RubyXL::Parser.parse('../Question_Breakup.xlsx')
-write_sheet = write_book[0]
+write_book = RubyXL::Parser.parse('Question_Breakup.xlsx')
+write_sheet = write_book[1]
 
 
 row_start = 1

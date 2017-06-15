@@ -30,24 +30,64 @@ class Api::AnalyticsController < ApiController
 				end
 			end
 		end
+		# Relative user score
+		relative_user_score||={}
+		relative_user_score["name"]=[]
+		relative_user_score["user_score"]=[]
+		relative_user_score["average_score"]=[]
+		max_s = "Maximum Score";avg_s = "Average Score";high_s = "Highest Score"; your_s ="Your Score"; your_per = "Your Percentage"; your_perile= "Your Percentile"
 		# subjectwise_reference_scores
 		user_ref_score_hash||={}
-		user_ref_score_hash["maximum_score"]||={} 
-		user_ref_score_hash["average_score"]||={}
-		user_ref_score_hash["highest_score"]||={}
-		user_ref_score_hash["user_score"]||={}
-		user_ref_score_hash["user_percentile"]||={}
-		user_ref_score_hash["user_percentage"]||={}
+		user_ref_score_hash[max_s]||={}   ;user_ref_score_hash[max_s]["Total"]=0
+		user_ref_score_hash[avg_s]||={}   ;user_ref_score_hash[avg_s]["Total"]=0
+		user_ref_score_hash[high_s]||={}   ;user_ref_score_hash[high_s]["Total"]=0
+		user_ref_score_hash[your_s]||={}   ;user_ref_score_hash[your_s]["Total"]=0
+		user_ref_score_hash[your_per]||={}   ;user_ref_score_hash[your_per]["Total"]=0
+		user_ref_score_hash[your_perile]||={}   ;user_ref_score_hash[your_perile]["Total"]=0
 		Subject.all.each do |subject|
 			exam_ref_score = ExamReferenceScore.where(:exam => exam, :entity_type => 'Subject', :entity_id => subject.id).first
-			user_ref_score_hash["maximum_score"][subject.name]=exam_ref_score.maximum.round(2)
-			user_ref_score_hash["average_score"][subject.name]=exam_ref_score.average.round(2)
-			user_ref_score_hash["highest_score"][subject.name]=sprintf('%.2f', exam_ref_score.highest)
+			user_ref_score_hash[max_s][subject.name]=exam_ref_score.maximum.round(2)
+			user_ref_score_hash[max_s]["Total"] += exam_ref_score.maximum.round(2)
+
+			user_ref_score_hash[avg_s][subject.name]=exam_ref_score.average.round(2)
+			user_ref_score_hash[avg_s]["Total"] += exam_ref_score.average.round(2)
+
+			user_ref_score_hash[high_s][subject.name]=sprintf('%.2f', exam_ref_score.highest)
+			user_ref_score_hash[high_s]["Total"] += sprintf('%.2f', exam_ref_score.highest).to_d
+
 			entity_subj_score = EntityScore.where(:entity_type =>'Subject', :exam_attempt => exam_attempt, :entity_id => subject.id).first
 			user_subj_score = UserGroupReferenceScore.where(:entity_score => entity_subj_score, :entity_type => 'Subject', :entity_id => subject.id).first
-			user_ref_score_hash["user_score"][subject.name]=entity_subj_score.value.round(2)
-			user_ref_score_hash["user_percentile"][subject.name]=user_subj_score.percentile.round(2) if user_subj_score
-			user_ref_score_hash["user_percentage"][subject.name]=(entity_subj_score.value.to_f*100/exam_ref_score.maximum).round(2)
+			user_ref_score_hash[your_s][subject.name]=entity_subj_score.value.round(2)
+			user_ref_score_hash[your_s]["Total"] += entity_subj_score.value.round(2)
+
+			user_ref_score_hash[your_per][subject.name]=user_subj_score.percentile.round(2) if user_subj_score
+			user_ref_score_hash[your_per]["Total"] +=user_subj_score.percentile.round(2) if user_subj_score
+
+			user_ref_score_hash[your_perile][subject.name]=(entity_subj_score.value.to_f*100/exam_ref_score.maximum).round(2)
+			user_ref_score_hash[your_perile]["Total"] +=(entity_subj_score.value.to_f*100/exam_ref_score.maximum).round(2)
+			
+			relative_user_score["name"]<< subject.name
+			relative_user_score["user_score"] << entity_subj_score.value.round(2)
+			relative_user_score["average_score"] << exam_ref_score.average.round(2)
+		end
+		
+		relative_user_score["name"] << "Total"
+		relative_user_score["user_score"] << relative_user_score["user_score"].inject(:+)
+		relative_user_score["average_score"] << relative_user_score["average_score"].inject(:+)
+
+		# Difficultywise breakup Table
+		diff_level_table||={}
+		diff_level_table['Total']=[0,0]
+		DifficultyLevel.all.each do |level|
+			diff_level_table[level.name]||=[]
+			UserExamDifficultyBreakup.where(:exam_attempt => exam_attempt, :difficulty_level => level).each do |breakup|
+				 diff_level_table[level.name] << breakup.correct
+				 diff_level_table['Total'][0] += breakup.correct
+			end
+			ExamDifficultyBreakup.where(:exam => exam, :difficulty_level => level).each do |breakup|
+				diff_level_table[level.name] << breakup.count
+				 diff_level_table['Total'][0] += breakup.count
+			end
 		end
 
 		# Difficultywise breakup
@@ -93,6 +133,51 @@ class Api::AnalyticsController < ApiController
 				subj_eff_score[subject.name][topic.name]=user_topic_score.effective_score
 			end
 		end
+		#Old Exam relation present
+		old_exam_attempt=false;old_index=0
+		user_attempt_array=ExamAttempt.where(:user => user).all
+		user_attempt_array.each_with_index do |attempt_item,index|
+			if exam_attempt.id==attempt_item.id  && index > 0
+				p index
+				old_exam_attempt=true
+				old_index = index -1
+			end
+		end
+
+		weak_score = ScoreName.where(:display_text => 'Weak').first
+
+		old_weak_to_normal||={}
+		old_normal_to_weak||={}
+		if old_exam_attempt
+
+			old_attempt = user_attempt_array[old_index]
+			puts "Old attempt id"+old_attempt.id.to_s
+			# old_attempt_array.each do |old_attempt|
+				EntityScore.where(:score_name => weak_score, :exam_attempt => old_attempt, :entity_type=>'Topic').each do |old_entity_score|
+					p old_entity_score.entity_id
+					EntityScore.where(:score_name => weak_score, :exam_attempt => exam_attempt, :entity_type=>'Topic', :entity_id => old_entity_score.entity_id).each do |entity_score|
+						topic = Topic.where(:id=> old_entity_score.entity_id).first
+						p topic.name
+						old_weak_to_normal[topic.name]||={}
+						# old_weak_to_normal[topic.name]['old_score'] = old_entity_score.value
+						old_weak_to_normal[topic.name]['old_score_name'] = old_entity_score.score_name.display_text
+						old_weak_to_normal[topic.name]['new_score_name'] = entity_score.score_name.display_text
+					end
+				end
+			# end
+
+			# old_attempt_array.each do |old_attempt|
+				EntityScore.where(:score_name => weak_score, :exam_attempt => exam_attempt, :entity_type=>'Topic').each do |entity_score|
+					EntityScore.where(:score_name => weak_score, :exam_attempt => old_attempt, :entity_type=>'Topic', :entity_id => entity_score.entity_id).each do |old_entity_score|
+						topic = Topic.where(:id=> old_entity_score.entity_id).first
+						old_normal_to_weak[topic.name]||={}
+						# old_normal_to_weak[topic.name]['old_score'] = old_entity_score.value
+						old_normal_to_weak[topic.name]['old_score_name'] = old_entity_score.score_name.display_text
+						old_normal_to_weak[topic.name]['new_score_name'] = entity_score.score_name.display_text
+					end
+				end
+			# end
+		end
 
 	    # All India Rank
 	    response["air"]=user_ref_score.rank
@@ -100,14 +185,36 @@ class Api::AnalyticsController < ApiController
 	    response["spi"]=0
 	    # Subjectwise Weak Topics List
 	    response["weak_topic_list"]=subject_weak_topic_list
+	    # Relative user score
+	    response["relative_user_score"]=relative_user_score
 	    # Subjectwise user reference scores and exam reference scores
 	    response["subjectwise_reference_scores"]=user_ref_score_hash
 	    # Difficultywise breakup
 	    response["difficulty_breakup"]=diff_level
+	    # Difficultywise breakup table
+	    response["difficulty_breakup_table"]=diff_level_table
 	    # Subjectwise topic effective score
 	    response["subjectwise_effective_score"]=subj_eff_score
+	    #Old Exam relation present
+	    response["old_exam_present"]=old_exam_attempt
+	    response["old_weak_to_normal"] = old_weak_to_normal
+	    response["old_normal_to_weak"] = old_normal_to_weak
 	    # UserQuestionScore for this exam
 	    response["user_question_score"] = user_ques_score_list
 	    render json: response.to_json, status: 200
+	end
+	def get_exam_list
+		response ={}
+	    attempted =  0
+	    # number = 16437970
+	    number = params[:rollno]
+	    user=User.where(:roll_number => number).first
+	    ExamAttempt.where(:user=> user).each do |exam_attempt|
+	    	entity_score = EntityScore.where(:entity_type =>'Standard', :exam_attempt => exam_attempt).first if exam_attempt
+			user_ref_score = UserGroupReferenceScore.where(:entity_type =>'Standard', :entity_score => entity_score).first if exam_attempt && entity_score
+			response[exam_attempt.exam.name]=user_ref_score.rank
+			
+		end
+		render json: response.to_json, status: 200
 	end
 end

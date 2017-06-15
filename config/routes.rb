@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     resources :analytics do 
       collection do
         get   :get_analytics
+        get   :get_exam_list
       end
     end
   end
