@@ -7,10 +7,6 @@ Things covered:
 ** Rails Explaination
 * [Scaffold](https://gun.io/blog/using-scaffolding/) - What happend when you use scaffold for generating models in Rails
 * [Rails Tutorials](https://www.railstutorial.org/book/toy_app) - Rails tutorials used in building this project
-* [Migrations Add/Remove Reference](https://stackoverflow.com/questions/5648970/rails-migration-with-adding-and-removing-reference) - Adding and Removing reference using migration
-* [Migration Change Table Name](https://stackoverflow.com/questions/471416/how-do-you-write-a-migration-to-rename-an-activerecord-model-and-its-table-in-ra) - How to change Table Name using Migrations
-* [Adding Mysql gem to Exisitng Rails App](https://teamtreehouse.com/community/how-do-i-install-the-mysql-gem-and-how-do-i-set-it-as-the-default-database-for-rails) - Adding Mysql gem in Rails when Mysql is already installed
-* [MySQL ERROR 2002 (HY000)](https://stackoverflow.com/a/43407957) - When Mysql gives this error. Stop and Restart server.
 * [Excel Parsing -xls](https://github.com/zdavatz/spreadsheet/blob/master/GUIDE.md) - For parsing xls files only.
 * [Excel Parsing -xlsx](https://github.com/weshatheleopard/rubyXL) - For parsing all other type of xlsx file
 * [Running scripts from Rails console](https://stackoverflow.com/questions/10313181/pass-ruby-script-file-to-rails-console) 
@@ -59,7 +55,31 @@ bundle exec rails runner "eval(File.read 'your_script.rb')"
 
 * Database creation
 
-* Database initialization
+** Database initialization
+* [Adding Mysql gem to Exisitng Rails App](https://teamtreehouse.com/community/how-do-i-install-the-mysql-gem-and-how-do-i-set-it-as-the-default-database-for-rails) - Adding Mysql gem in Rails when Mysql is already installed
+* [MySQL ERROR 2002 (HY000)](https://stackoverflow.com/a/43407957) - When Mysql gives this error. Stop and Restart server.
+* [Polymorphic field]
+```
+rails generate scaffold UserEntityScore entity:references{polymorphic}:index 
+``` 
+* [Find/Create By multiple reference fields] Be cautious to just use reference only. Any value fields should be updated by directly referencnig the output object
+```
+stream = Stream.find_or_create_by(:name => stream_name,:subject => subject)
+```
+* [Find/Create By multiple reference and value fields]
+```
+user_breakup = UserBreakup.where(:ref_field_1 => ref_object_1, :ref_field_2 =>ref_object_2).first
+user_breakup = UserBreakup.create(:ref_field_1 => ref_object_1, :ref_field_2 =>ref_object_2,:value_field_1 => 0, :value_field_1 => 0) if not user_breakup
+```
+
+** Migration
+* [Migrations Add/Remove Reference](https://stackoverflow.com/questions/5648970/rails-migration-with-adding-and-removing-reference) - Adding and Removing reference using migration
+* [Migration Change Table Name](https://stackoverflow.com/questions/471416/how-do-you-write-a-migration-to-rename-an-activerecord-model-and-its-table-in-ra) - How to change Table Name using Migrations
+* [Migration to define decimal fields]
+```
+change_column :table_name, :field_name, :decimal, :precision => 10, :scale => 2
+```
+
 
 * How to run the test suite
 

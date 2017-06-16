@@ -44,6 +44,7 @@ class Api::AnalyticsController < ApiController
 		user_ref_score_hash[your_s]||={}   ;user_ref_score_hash[your_s]["Total"]=0
 		user_ref_score_hash[your_per]||={}   ;user_ref_score_hash[your_per]["Total"]=0
 		user_ref_score_hash[your_perile]||={}   ;user_ref_score_hash[your_perile]["Total"]=0
+		standard = Standard.first
 		Subject.all.each do |subject|
 			exam_ref_score = ExamReferenceScore.where(:exam => exam, :entity_type => 'Subject', :entity_id => subject.id).first
 			user_ref_score_hash[max_s][subject.name]=exam_ref_score.maximum.round(2)
@@ -57,20 +58,24 @@ class Api::AnalyticsController < ApiController
 
 			entity_subj_score = EntityScore.where(:entity_type =>'Subject', :exam_attempt => exam_attempt, :entity_id => subject.id).first
 			user_subj_score = UserGroupReferenceScore.where(:entity_score => entity_subj_score, :entity_type => 'Subject', :entity_id => subject.id).first
+			user_std_score = UserGroupReferenceScore.where(:entity_score => entity_subj_score, :entity_type => 'Standard').first
 			user_ref_score_hash[your_s][subject.name]=entity_subj_score.value.round(2)
 			user_ref_score_hash[your_s]["Total"] += entity_subj_score.value.round(2)
 
-			user_ref_score_hash[your_per][subject.name]=user_subj_score.percentile.round(2) if user_subj_score
-			user_ref_score_hash[your_per]["Total"] +=user_subj_score.percentile.round(2) if user_subj_score
+			user_ref_score_hash[your_perile][subject.name]=user_subj_score.percentile.round(2) if user_subj_score
+			
+			user_ref_score_hash[your_perile]["Total"] = user_std_score.percentile if user_std_score
 
-			user_ref_score_hash[your_perile][subject.name]=(entity_subj_score.value.to_f*100/exam_ref_score.maximum).round(2)
-			user_ref_score_hash[your_perile]["Total"] +=(entity_subj_score.value.to_f*100/exam_ref_score.maximum).round(2)
+			user_ref_score_hash[your_per][subject.name]=(entity_subj_score.value.to_f*100/exam_ref_score.maximum).round(2)
+			user_ref_score_hash[your_per]["Total"] +=(entity_subj_score.value.to_f*100/exam_ref_score.maximum).round(2)
 			
 			relative_user_score["name"]<< subject.name
 			relative_user_score["user_score"] << entity_subj_score.value.round(2)
 			relative_user_score["average_score"] << exam_ref_score.average.round(2)
 		end
+		user_ref_score_hash[your_per]["Total"] = (user_ref_score_hash[your_s]["Total"].to_f*100/user_ref_score_hash[max_s]["Total"].to_f).round(2)
 		
+
 		relative_user_score["name"] << "Total"
 		relative_user_score["user_score"] << relative_user_score["user_score"].inject(:+)
 		relative_user_score["average_score"] << relative_user_score["average_score"].inject(:+)
@@ -186,7 +191,7 @@ class Api::AnalyticsController < ApiController
 	    # All India Rank
 	    response["air"]=user_ref_score.rank
 	    # SPI
-	    response["spi"]=0
+	    response["spi"]=getSpi(user_ref_score_hash[your_s]["Total"]).round(2)
 	    # Subjectwise Weak Topics List
 	    response["weak_topic_list"]=subject_weak_topic_list
 	    # Relative user score
@@ -222,5 +227,18 @@ class Api::AnalyticsController < ApiController
 			
 		end
 		render json: response.to_json, status: 200
+	end
+	def getSpi(score)
+	  spi = 0
+	  if score.between?(0,90)
+	    spi = score.to_f*0.5/94
+	  elsif score.between?(90,150)
+	    spi = ((score-94).to_f*0.5/56)+0.5
+	  elsif score > 150
+	    spi = 1
+	  elsif score < 0
+	    spi = 0
+	  end
+	  return spi
 	end
 end
